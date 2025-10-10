@@ -4,12 +4,6 @@ import { connect } from "./config/dbconnection.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import { AdminRouter } from "./routes/AdminRoutes.js";
-import { BlogsRouter } from "./routes/BlogsRoutes.js";
-import { BusinessRotuer } from "./routes/BusinessRoutes.js";
-import { FinancialRouter } from "./routes/FinancialsRoutes.js";
-import { MeetingRotuer } from "./routes/MeetingRoutes.js";
-import { NewsRouter } from "./routes/NewsRoutes.js";
-import { UserRouter } from "./routes/UserRoutes.js";
 dotenv.config();
 
 const app = express();
@@ -30,7 +24,7 @@ app.use("/uploads/profiles", express.static("uploads/profiles"));
 app.use("/uploads/files", express.static("uploads/files"));
 
 
-app.use("/admin",AdminRouter,BlogsRouter,BusinessRotuer,FinancialRouter,MeetingRotuer,NewsRouter)
+app.use("/admin",AdminRouter,another)
 
 
 connect(process.env.MONGO_URI)

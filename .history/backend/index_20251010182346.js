@@ -30,7 +30,7 @@ app.use("/uploads/profiles", express.static("uploads/profiles"));
 app.use("/uploads/files", express.static("uploads/files"));
 
 
-app.use("/admin",AdminRouter,BlogsRouter,BusinessRotuer,FinancialRouter,MeetingRotuer,NewsRouter)
+app.use("/admin",AdminRouter,BlogsRouter,BusinessRotuer,FinancialRouter,MeetingRotuer,NewsRouter,UserRouter)
 
 
 connect(process.env.MONGO_URI)
