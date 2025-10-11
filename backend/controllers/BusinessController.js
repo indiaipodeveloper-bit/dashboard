@@ -4,7 +4,7 @@ import { Business } from "../models/BusinessDetails.js";
 export async function getAllBusinessDetails(req, res) {
   try {
     const AllBusinessDetails = await Business.find({}).populate("createdBy");
-    return res.statu(200).json({ AllBusinessDetails });
+    return res.status(200).json({ AllBusinessDetails });
   } catch (error) {
     return res.status(500).send("Sorry Internal Server Error !");
   }
@@ -28,7 +28,7 @@ export async function EditBusinessDetails(req, res) {
     if (!editedBusinessDetails) {
       return res.status(404).send("Business not found");
     }
-    return res.statu(200).json({ editedBusinessDetails });
+    return res.status(200).json({ editedBusinessDetails });
   } catch (error) {
     return res.status(500).send("Internal Server Error");
   }

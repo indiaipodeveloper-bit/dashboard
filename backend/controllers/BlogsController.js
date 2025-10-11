@@ -16,7 +16,7 @@ export async function AddBlog(req, res) {
       description,
       image,
     });
-    return res.statu(200).json({ blog });
+    return res.status(200).json({ blog });
   } catch (error) {
     return res.status(500).send("Internal Server Error");
   }
@@ -28,7 +28,7 @@ export async function AddBlog(req, res) {
 export async function getAllBlogs(req, res) {
   try {
     const allBlogs = await Blog.find({});
-    return res.statu(200).json({ allBlogs });
+    return res.status(200).json({ allBlogs });
   } catch (error) {
     return res.status(500).send("Sorry Internal Server Error !");
   }

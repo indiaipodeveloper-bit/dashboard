@@ -6,7 +6,6 @@ import { Financials } from "../models/FinancialDetails.js";
 export async function getAllFinancialDetails(req, res) {
   try {
     const allFinancials = await Financials.find({}).populate("createdBy");
-    console.log(allFinancials)
     return res.status(200).json({ allFinancials });
   } catch (error) {
     return res.status(500).send("Sorry Internal Server Error !");
@@ -32,8 +31,6 @@ export async function EditFinancialDetails(req, res) {
     if (!editedFinancialDetails) {
       return res.status(404).send("Financials not found");
     }
-    console.log(editedFinancialDetails)
-    console.log("sending the updated fieldds")
     return res.status(200).json({ editedFinancialDetails });
   } catch (error) {
     return res.status(500).send("Internal Server Error");

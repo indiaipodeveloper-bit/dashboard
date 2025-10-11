@@ -24,8 +24,8 @@ router.post("/add-user", checkAdmin, getAllUsers);
 
 
 
-router.get("/all-blogs", checkAdmin, getAllBlogs);
-router.post("/add-blog", checkAdmin, AddBlog);
+router.get("/all-blogs", getAllBlogs);
+router.post("/add-blog", AddBlog);
 
 
 router.get("/all-business-details", checkAdmin, getAllBusinessDetails);

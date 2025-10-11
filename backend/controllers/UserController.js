@@ -60,7 +60,6 @@ export async function UserLogin(req, res) {
 }
 
 export async function LogoutUser(req, res) {
-  console.log("req received on logout");
   try {
     res
       .cookie("uid", "loggedout", { maxAge, secure: true, sameSite: "None" })
