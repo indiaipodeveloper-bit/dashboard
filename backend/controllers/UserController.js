@@ -1,8 +1,10 @@
-import { User } from "../models/UserModel";
-const bcrypt = require("bcrypt");
+import { User } from "../models/UserModel.js";
+import { setUser } from "../services/userAuth.js";
+import bcrypt from "bcrypt"
 const maxAge = 3 * 24 * 60 * 60 * 1000;
 
 export async function UserSignup(req, res) {
+  console.log("req received on sign")
   try {
     const { email, password } = req.body;
     if (!email || !password) {
@@ -33,6 +35,8 @@ export async function UserSignup(req, res) {
 }
 
 export async function UserLogin(req, res) {
+
+  console.log("req received on login")
   try {
     const { email, password } = req.body;
     if (!email || !password) {
@@ -60,6 +64,8 @@ export async function UserLogin(req, res) {
 }
 
 export async function LogoutUser(req, res) {
+  
+  console.log("req received on logout")
   try {
     res
       .cookie("uid", "loggedout", { maxAge, secure: true, sameSite: "None" })

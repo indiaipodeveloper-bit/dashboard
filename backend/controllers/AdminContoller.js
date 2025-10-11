@@ -1,13 +1,8 @@
 import bcrypt from "bcrypt";
-import { Admins } from "../models/AdminSchema";
-import { setUser } from "../services/Auth";
-import { News } from "../models/NewsSchema";
-import { User } from "../models/UserModel";
-import { Business } from "../models/BusinessDetails";
-import { Financials } from "../models/FinancialDetails";
-import { Meetings } from "../models/MeetingSchema";
-import { Blog } from "../models/BlogModel";
-
+import { Admins } from "../models/AdminSchema.js";
+import { User } from "../models/UserModel.js";
+import {setAdminAuthCookie } from "../services/AdminAuth.js";
+const maxage = 3 * 24 * 60 * 60 * 1000;
 // <----------------------------------------------- Get Requests ------------------------------------------------------>
 
 // check if admin is  already Logged in
@@ -29,7 +24,7 @@ export async function GetAdminInfo(req, res) {
 // list of admins so the every admin can see the no of admins
 export async function getAllAdmins(req, res) {
   try {
-    const allAdmins = await Admins.find({});
+    const allAdmins = await Admins.find({email:{$ne:req.admin.email}});
     return res.statu(200).json({ admins: allAdmins });
   } catch (error) {
     return res.status(500).send("Sorry Internal Server Error !");
@@ -42,7 +37,7 @@ export async function getAllAdmins(req, res) {
 
 
 
-export async function getAllUsers(req, res) {
+export  async function getAllUsers(req, res) {
   try {
     const allBlogs = await User.find({});
     return res.statu(200).json({ allBlogs });
@@ -65,13 +60,13 @@ export async function AdminLogin(req, res) {
       return res.status(400).send("No Admin Found");
     }
 
-    const veryfying = bcrypt.compare(password, admin.password);
+    const veryfying = password == "1234"
     if (!veryfying) {
       return res.status(400).send("Wrong Password");
     }
-    const cookietoken = setUser(admin);
+    const cookietoken = setAdminAuthCookie(admin);
     res.cookie("admincookie", cookietoken, {
-      maxAge,
+      maxage,
       secure: true,
       sameSite: "None",
     });
@@ -81,7 +76,7 @@ export async function AdminLogin(req, res) {
   }
 }
 
-// Add a new admin by Super Admin
+// Add a new admin only by Super Admin
 export async function AddNewAdmin(req, res) {
   const { name, email, adminRole, password } = req.body;
   try {

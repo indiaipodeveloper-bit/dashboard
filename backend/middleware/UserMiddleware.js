@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken'
-import { getUser } from '../services/Auth';
+import { getUser } from '../services/userAuth.js';
 
 export function CheckUserLoggedIn(req,res,next) {
     const token = req.cookies.uid;

@@ -33,4 +33,4 @@ const FinancialDetails = new mongoose.Schema({
   },
 });
 
-export const Financials = mongoose.model(FinancialDetails, "financials");
+export const Financials = mongoose.model("financials",FinancialDetails);

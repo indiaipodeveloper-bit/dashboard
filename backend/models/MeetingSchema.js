@@ -13,8 +13,6 @@ const meetingSchema = new mongoose.Schema(
     time: {
       from: { type: String, required: true },
       to: { type: String, required: true },
-      required:true,
-      unique
     },
     fees: {
       type: String,
@@ -28,5 +26,5 @@ const meetingSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-export const Meetings = mongoose.model(meetingSchema, "meetings");
+export const Meetings = mongoose.model("meetings",meetingSchema);
 

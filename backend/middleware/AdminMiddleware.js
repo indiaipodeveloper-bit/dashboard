@@ -1,4 +1,5 @@
-import { getUser } from "../services/Auth";
+import { getAdminUserCookie } from "../services/AdminAuth.js";
+import { getUser } from "../services/userAuth.js";
 
 export function checkSuperAdmin(req, res, next) {
   try {
@@ -6,7 +7,7 @@ export function checkSuperAdmin(req, res, next) {
     if (!token) {
       return res.status(400).send("You're not Logged In");
     }
-    const user = getUser(token);
+    const user = getAdminUserCookie(token);
     if (!user) {
       return res.status(400).send("Not Authenticated");
     }
@@ -25,7 +26,7 @@ export function checkAdmin(req, res, next) {
     if (!token) {
       return res.status(400).send("You're not Logged In");
     }
-    const user = getUser(token);
+    const user = getAdminUserCookie(token);
     if (!user) {
       return res.status(400).send("Not Authenticated");
     }

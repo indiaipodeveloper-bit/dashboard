@@ -1,4 +1,4 @@
-import { Business } from "../models/BusinessDetails";
+import { Business } from "../models/BusinessDetails.js";
 
 // Business details for the ipo eligibility
 export async function getAllBusinessDetails(req, res) {

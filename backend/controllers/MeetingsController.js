@@ -1,3 +1,4 @@
+import { Meetings } from "../models/MeetingSchema.js";
 
 export async function AddNewMeeting(req,res) {
   try {
@@ -23,16 +24,6 @@ export async function getAllMeetings(req, res) {
   try {
     const allBlogs = await Meetings.find({}).populate("createdBy");
     return res.statu(200).json({ allBlogs });
-  } catch (error) {
-    return res.status(500).send("Sorry Internal Server Error !");
-  }
-}
-
-// list of all news
-export async function getAllNews(req, res) {
-  try {
-    const allNews = await News.find({});
-    return res.statu(200).json({ allNews });
   } catch (error) {
     return res.status(500).send("Sorry Internal Server Error !");
   }

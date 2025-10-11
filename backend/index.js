@@ -3,12 +3,7 @@ import dotenv from "dotenv";
 import { connect } from "./config/dbconnection.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import { AdminRouter } from "./routes/AdminRoutes.js";
-import { BlogsRouter } from "./routes/BlogsRoutes.js";
-import { BusinessRotuer } from "./routes/BusinessRoutes.js";
-import { FinancialRouter } from "./routes/FinancialsRoutes.js";
-import { MeetingRotuer } from "./routes/MeetingRoutes.js";
-import { NewsRouter } from "./routes/NewsRoutes.js";
+import { AdminRouter } from "./routes/Routes.js";
 import { UserRouter } from "./routes/UserRoutes.js";
 dotenv.config();
 
@@ -30,10 +25,11 @@ app.use("/uploads/profiles", express.static("uploads/profiles"));
 app.use("/uploads/files", express.static("uploads/files"));
 
 
-app.use("/admin",AdminRouter,BlogsRouter,BusinessRotuer,FinancialRouter,MeetingRotuer,NewsRouter)
+app.use("/admin",AdminRouter)
+app.use("/",UserRouter)
 
 
-connect(process.env.MONGO_URI)
+connect("mongodb://127.0.0.1:27017/dashboard")
   .then(() => {
     console.log("db connected");
     app.listen(PORT, () => {

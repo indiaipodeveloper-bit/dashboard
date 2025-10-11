@@ -1,4 +1,4 @@
-import { Financials } from "../models/FinancialDetails";
+import { Financials } from "../models/FinancialDetails.js";
 
 
 

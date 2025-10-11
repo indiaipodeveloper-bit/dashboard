@@ -1,6 +1,6 @@
 import express from "express";
-import { AddProfileImage, DeleteAccount, LogoutUser, UpdateUserProfile, UserLogin, UserSignup } from "../controllers/UserController";
-import { CheckUserLoggedIn } from "../middleware/UserMiddleware";
+import { AddProfileImage, DeleteAccount, LogoutUser, UpdateUserProfile, UserLogin, UserSignup } from "../controllers/UserController.js";
+import { CheckUserLoggedIn } from "../middleware/UserMiddleware.js";
 
 export const router = express.Router()
 

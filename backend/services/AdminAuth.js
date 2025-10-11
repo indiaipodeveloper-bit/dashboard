@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken"
 const maxage = 3 * 24 * 60 * 60 * 1000;
 const secretkey = "adminsecretkey"
 
-export function setUser(user) {
+export function setAdminAuthCookie(user) {
   return jwt.sign(
     {
       email: user.email,
@@ -16,6 +16,6 @@ export function setUser(user) {
   );
 }
 
-export function getUser(token,secret) {
+export function getAdminUserCookie(token) {
   return jwt.verify(token, secret);
 }
