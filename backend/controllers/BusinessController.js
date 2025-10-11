@@ -3,8 +3,8 @@ import { Business } from "../models/BusinessDetails.js";
 // Business details for the ipo eligibility
 export async function getAllBusinessDetails(req, res) {
   try {
-    const allBlogs = await Business.find({}).populate("createdBy");
-    return res.statu(200).json({ allBlogs });
+    const AllBusinessDetails = await Business.find({}).populate("createdBy");
+    return res.statu(200).json({ AllBusinessDetails });
   } catch (error) {
     return res.status(500).send("Sorry Internal Server Error !");
   }
@@ -16,7 +16,7 @@ export async function EditBusinessDetails(req, res) {
     const { businessName, companyType, contactNo } = req.body;
     const updateFields = {};
 
-    if (businessName) updateFields.name = businessName;
+    if (businessName) updateFields.businessName = businessName;
     if (companyType) updateFields.companyType = companyType;
     if (contactNo) updateFields.contactNo = contactNo;
 

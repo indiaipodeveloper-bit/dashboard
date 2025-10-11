@@ -1,11 +1,11 @@
 import express from "express";
-import { getAllMeetings } from "../controllers/MeetingsController.js";
+import { AddNewMeeting, getAllMeetings } from "../controllers/MeetingsController.js";
 import { EditFinancialDetails, getAllFinancialDetails } from "../controllers/FinancialController.js";
 import { EditBusinessDetails, getAllBusinessDetails } from "../controllers/BusinessController.js";
 import { AddBlog, getAllBlogs } from "../controllers/BlogsController.js";
 import {AddNewAdmin, AdminLogin, GetAdminInfo, getAllAdmins, getAllUsers} from '../controllers/AdminContoller.js'
 import { checkAdmin, checkSuperAdmin } from "../middleware/AdminMiddleware.js";
-import { getAllNews } from "../controllers/NewsController.js";
+import { AddNews, getAllNews } from "../controllers/NewsController.js";
 
 const router = express.Router();
 
@@ -14,7 +14,7 @@ router.post("/login", AdminLogin);
 
 
 router.get("/all-admins", checkAdmin, getAllAdmins);
-router.post("/add-admin", checkAdmin, checkSuperAdmin, AddNewAdmin);
+router.post("/add-admin", checkSuperAdmin, AddNewAdmin);
 // router.delete("/delete-admin")
 
 
@@ -41,10 +41,11 @@ router.patch("/edit-financials", checkAdmin, EditFinancialDetails);
 
 
 router.get("/all-meetings", checkAdmin, getAllMeetings);
-router.post("/add-meetings", checkAdmin, getAllMeetings);
+router.post("/add-meeting", checkAdmin, AddNewMeeting);
+
 
 router.get("/all-news", checkAdmin, getAllNews);
-router.post("/add-news", checkAdmin,);
+router.post("/add-news", checkAdmin,AddNews);
 
 
 

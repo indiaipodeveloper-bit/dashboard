@@ -13,7 +13,7 @@ export function checkSuperAdmin(req, res, next) {
     }
 
     if(user.adminRole == "SuperAdmin"){
-        req.admin = user
+        req.user = user
        next();
     }
   } catch (error) {
@@ -32,7 +32,7 @@ export function checkAdmin(req, res, next) {
     }
 
     if(user.adminRole == "Admin" || user.adminRole == "SuperAdmin"){
-        req.admin = user
+        req.user = user
        next();
     }
   } catch (error) {

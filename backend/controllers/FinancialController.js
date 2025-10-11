@@ -5,8 +5,9 @@ import { Financials } from "../models/FinancialDetails.js";
 // Business details for the ipo eligibility
 export async function getAllFinancialDetails(req, res) {
   try {
-    const allBlogs = await Financials.find({}).populate("createdBy");
-    return res.statu(200).json({ allBlogs });
+    const allFinancials = await Financials.find({}).populate("createdBy");
+    console.log(allFinancials)
+    return res.status(200).json({ allFinancials });
   } catch (error) {
     return res.status(500).send("Sorry Internal Server Error !");
   }
@@ -17,10 +18,11 @@ export async function EditFinancialDetails(req, res) {
   try {
     const { gstNumber,turnOverYear,turnOver,patYear,PAT } = req.body;
     const updateFields = {};
-    if (turnOverYear) updateFields.contactNo = turnOverYear;
-    if (turnOver) updateFields.companyType = turnOver;
-    if (patYear) updateFields.companyType = patYear;
-    if (PAT) updateFields.companyType = PAT;
+    if (gstNumber) updateFields.gstNumber = gstNumber;
+    if (turnOverYear) updateFields.turnOverYear = turnOverYear;
+    if (turnOver) updateFields.turnOver = turnOver;
+    if (patYear) updateFields.patYear = patYear;
+    if (PAT) updateFields.PAT = PAT;
 
     const editedFinancialDetails = await Financials.findOneAndUpdate(
       { gstNumber },
@@ -30,7 +32,9 @@ export async function EditFinancialDetails(req, res) {
     if (!editedFinancialDetails) {
       return res.status(404).send("Financials not found");
     }
-    return res.statu(200).json({ editedFinancialDetails });
+    console.log(editedFinancialDetails)
+    console.log("sending the updated fieldds")
+    return res.status(200).json({ editedFinancialDetails });
   } catch (error) {
     return res.status(500).send("Internal Server Error");
   }

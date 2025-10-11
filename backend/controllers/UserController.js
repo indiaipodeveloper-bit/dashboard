@@ -1,13 +1,12 @@
 import { User } from "../models/UserModel.js";
 import { setUser } from "../services/userAuth.js";
-import bcrypt from "bcrypt"
+import bcrypt from "bcrypt";
 const maxAge = 3 * 24 * 60 * 60 * 1000;
 
 export async function UserSignup(req, res) {
-  console.log("req received on sign")
   try {
-    const { email, password } = req.body;
-    if (!email || !password) {
+    const { name, email, phone, password, gender } = req.body;
+    if (!email || !password || !name || !password || !gender) {
       return res.status(400).send("both email and password are required");
     }
     const user = await User.findOne({ email });
@@ -17,13 +16,15 @@ export async function UserSignup(req, res) {
 
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
+    const newUser = await User.create({
+      name,
+      email,
+      phone,
+      password: hashedPassword,
+      gender,
+    });
 
-    const newUser = await User.create({ email, password: hashedPassword });
-
-    const cookietoken = setUser(
-      { email: user.email, id: user._id, isAdmin: user.isAdmin },
-      "jwtUserSecretkey"
-    );
+    const cookietoken = setUser(newUser);
 
     res.cookie("uid", cookietoken, { maxAge, secure: true, sameSite: "None" });
     return res.status(201).json({
@@ -35,8 +36,6 @@ export async function UserSignup(req, res) {
 }
 
 export async function UserLogin(req, res) {
-
-  console.log("req received on login")
   try {
     const { email, password } = req.body;
     if (!email || !password) {
@@ -51,10 +50,7 @@ export async function UserLogin(req, res) {
     if (!veryfying) {
       return res.status(400).send("Wrong Password");
     }
-    const cookietoken = setUser(
-      { email: user.email, id: user._id, isAdmin: user.isAdmin },
-      "jwtUserSecretkey"
-    );
+    const cookietoken = setUser(user);
 
     res.cookie("uid", cookietoken, { maxAge, secure: true, sameSite: "None" });
     return res.status(200).json({ userdata: user });
@@ -64,8 +60,7 @@ export async function UserLogin(req, res) {
 }
 
 export async function LogoutUser(req, res) {
-  
-  console.log("req received on logout")
+  console.log("req received on logout");
   try {
     res
       .cookie("uid", "loggedout", { maxAge, secure: true, sameSite: "None" })
