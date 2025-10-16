@@ -18,6 +18,7 @@ import {
   AddUser,
   AdminLogin,
   changeUserActiveStatus,
+  DeleteUser,
   GetAdminInfo,
   getAllAdmins,
   getAllUsers,
@@ -32,7 +33,7 @@ const upload = multer({ dest: "uploads/profiles" });
 
 const router = express.Router();
 
-router.get("/get-adminInfo", checkAdmin, GetAdminInfo);
+router.get("/get-adminInfo",checkAdmin, GetAdminInfo);
 router.post("/login", AdminLogin);
 router.post(
   "/add-profile-image",
@@ -41,30 +42,32 @@ router.post(
   AddProfileImage
 );
 router.post('/update-profile',checkAdmin,UpdateAdminProfile)
-router.get("/remove-profile-image", checkAdmin, RemoveProfileImage);
-router.get("/logout", checkAdmin, LogoutAdmin);
+router.get("/remove-profile-image",checkAdmin, RemoveProfileImage);
+router.get("/logout",checkAdmin, LogoutAdmin);
 
-router.get("/all-admins", checkAdmin, getAllAdmins);
+router.get("/all-admins", getAllAdmins);
 router.post("/add-admin", checkSuperAdmin, AddNewAdmin);
 // router.delete("/delete-admin")
 
-router.get("/all-users", checkAdmin, getAllUsers);
-router.post("/add-user", checkAdmin, AddUser);
-router.post("/change-user-status", checkAdmin, changeUserActiveStatus);
+router.get("/all-users", getAllUsers);
+router.post("/add-user", AddUser);
+router.post("/change-user-status",checkAdmin, changeUserActiveStatus);
+router.post("/delete-user",checkAdmin, DeleteUser);
 
-router.get("/all-blogs", checkAdmin, getAllBlogs);
-router.post("/add-blog", checkAdmin, AddBlog);
+router.get("/all-blogs", getAllBlogs);
+router.post("/add-blog", AddBlog);
 
-router.get("/all-business-details", checkAdmin, getAllBusinessDetails);
-router.patch("/edit-business-details", checkAdmin, EditBusinessDetails);
+router.get("/all-business-details", getAllBusinessDetails);
+router.patch("/edit-business-details", EditBusinessDetails);
 
-router.get("/all-financial-details", checkAdmin, getAllFinancialDetails);
-router.patch("/edit-financials", checkAdmin, EditFinancialDetails);
+router.get("/all-financial-details", getAllFinancialDetails);
+router.patch("/edit-financials", EditFinancialDetails);
 
-router.get("/all-meetings", checkAdmin, getAllMeetings);
-router.post("/add-meeting", checkAdmin, AddNewMeeting);
+router.get("/all-meetings", getAllMeetings);
+router.post("/add-meeting", AddNewMeeting);
 
-router.get("/all-news", checkAdmin, getAllNews);
-router.post("/add-news", checkAdmin, AddNews);
+router.get("/all-news", getAllNews);
+router.post("/add-news", AddNews);
+
 
 export { router as AdminRouter };

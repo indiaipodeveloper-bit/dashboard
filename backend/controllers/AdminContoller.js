@@ -22,7 +22,8 @@ export async function GetAdminInfo(req, res) {
 // list of admins so the every admin can see the no of admins
 export async function getAllAdmins(req, res) {
   try {
-    const allAdmins = await Admins.find({ _id: { $ne: req.user.id } });
+    // const allAdmins = await Admins.find({ _id: { $ne: req.user.id } });
+    const allAdmins = await Admins.find({});
     return res.status(200).json({ admins: allAdmins });
   } catch (error) {
     return res.status(500).send("Sorry Internal Server Error !");
@@ -143,6 +144,22 @@ export async function changeUserActiveStatus(req, res) {
   }
 }
 
+
+export async function DeleteUser(req,res) {
+  try {
+    const {email} = req.body
+    const user = await User.findOneAndDelete({email})
+    if(!user){
+      return res.status(400).send("User Does Not Exist")
+    }
+    return res.status(200).send("User Deleted Successfully")
+  } catch (error) {
+    return res.status(500).send("sorry Internal Server Error");
+  }
+}
+
+
+
 export async function AddProfileImage(req, res) {
   try {
     if (!req.file) {
@@ -174,8 +191,6 @@ export async function UpdateAdminProfile(req, res) {
       { name: name },
       {new: true, runValidators: true }
     );
-    console.log(user);
-    console.log("done");
     return res.status(200).json({ user });
   } catch (error) {
     return res.status(500).send("Sorry Internal Server Error !");
@@ -186,19 +201,22 @@ export async function UpdateAdminProfile(req, res) {
 
 export async function RemoveProfileImage(req, res) {
   try {
-    const user = await Admins.findOne({ _id: req.user.id });
+    const user = await Admins.findOne({ email: req.user.email });
     if (!user) {
       return res.status(400).send("User Not Found");
     }
 
-    if (user.image) {
-      unlinkSync(user.image);
+    if (user.image && fs.existsSync(user.image)) {
+      try {
+        fs.unlinkSync(user.image);
+      } catch (fileError) {
+        return res.status(400).send("error while removing the image")
+      }
     }
-
     user.image = null;
     await user.save();
     return res.status(200).json({ user });
   } catch (error) {
-    return res.status(500).send("Sorry Internal Server Error !");
+    return res.status(500).send("Sorry Internal Server ");
   }
 }

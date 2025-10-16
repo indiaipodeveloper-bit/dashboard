@@ -32,6 +32,17 @@ import { BackendUrl } from "../../assets/constant";
 import { useSelector } from "react-redux";
 import { toast } from "sonner";
 import { Avatar, AvatarImage } from "../../components/ui/avatar";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "../../components/ui/alert-dialog";
 
 export function UserTable() {
   const allusers = useSelector((state) => state.users.allUsers);
@@ -156,15 +167,30 @@ export function UserTable() {
         const user = row.original;
         return (
           <div className="text-left font-medium">
-            <Button
-              className={"text-red-400 p-0 mb-2.5 cursor-pointer text-2xl"}
-              onClick={() => {
-                setselectedUser(user);
-                console.log(selectedUser);
-              }}
-            >
-              <MdDelete className="inline mr-1" />
-            </Button>
+            <AlertDialog>
+              <AlertDialogTrigger>
+                <MdDelete className="inline mr-1 text-2xl text-red-600" />
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    This action cannot be undone. This will permanently delete
+                    your account and remove your data from our servers.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction
+                    onClick={() => {
+                      handleDeleteUserByAdmin(user);
+                    }}
+                  >
+                    Continue
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
           </div>
         );
       },
@@ -195,6 +221,23 @@ export function UserTable() {
           u._id === useuser._idrId ? { ...u, isActive: !newStatus } : u
         )
       );
+    }
+  };
+
+  const handleDeleteUserByAdmin = async (user) => {
+    try {
+      const res = await axios.post(
+        `${BackendUrl}/admin/delete-user`,
+        { email: user.email, id: user._id },
+        { withCredentials: true }
+      );
+      console.log(res);
+      if (res.status == 200) {
+        users.filter((e) => e._id !== user._id);
+        toast.success(res.data);
+      }
+    } catch (error) {
+      toast.error(error.response.data);
     }
   };
 

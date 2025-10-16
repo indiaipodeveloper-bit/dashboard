@@ -39,7 +39,7 @@ const Admins = () => {
       createdAt: "2025-10-15T09:59:49.845Z",
       email: "admin@gmail.com",
       image:
-        "uploads/profiles/1760521964243pngtree-man-avatar-image-for-profile-png-image_13001877.png",
+        "https://images.unsplash.com/photo-1529665253569-6d01c0eaf7b6?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8cHJvZmlsZXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=500",
       name: "admin3",
       password: "$2b$10$3HteVKHRhoVchW1NaR1qsew6d4oWBlAqo.AD00T.S8b/6/wDGsHdC",
       updatedAt: "2025-10-15T09:59:49.845Z",
@@ -51,7 +51,19 @@ const Admins = () => {
       createdAt: "2025-10-15T09:59:49.845Z",
       email: "admin@gmail.com",
       image:
-        "uploads/profiles/1760521964243pngtree-man-avatar-image-for-profile-png-image_13001877.png",
+        null,
+      name: "admin3",
+      password: "$2b$10$3HteVKHRhoVchW1NaR1qsew6d4oWBlAqo.AD00T.S8b/6/wDGsHdC",
+      updatedAt: "2025-10-15T09:59:49.845Z",
+      __v: 0,
+      _id: "68ef7095c0feb39912f0ad0b",
+    },
+    
+    {
+      adminRole: "Admin",
+      createdAt: "2025-10-15T09:59:49.845Z",
+      email: "admin@gmail.com",
+      image:null,
       name: "admin3",
       password: "$2b$10$3HteVKHRhoVchW1NaR1qsew6d4oWBlAqo.AD00T.S8b/6/wDGsHdC",
       updatedAt: "2025-10-15T09:59:49.845Z",
@@ -63,19 +75,7 @@ const Admins = () => {
       createdAt: "2025-10-15T09:59:49.845Z",
       email: "admin@gmail.com",
       image:
-        "uploads/profiles/1760521964243pngtree-man-avatar-image-for-profile-png-image_13001877.png",
-      name: "admin3",
-      password: "$2b$10$3HteVKHRhoVchW1NaR1qsew6d4oWBlAqo.AD00T.S8b/6/wDGsHdC",
-      updatedAt: "2025-10-15T09:59:49.845Z",
-      __v: 0,
-      _id: "68ef7095c0feb39912f0ad0b",
-    },
-    {
-      adminRole: "Admin",
-      createdAt: "2025-10-15T09:59:49.845Z",
-      email: "admin@gmail.com",
-      image:
-        "uploads/profiles/1760521964243pngtree-man-avatar-image-for-profile-png-image_13001877.png",
+        null,
       name: "admin3",
       password: "$2b$10$3HteVKHRhoVchW1NaR1qsew6d4oWBlAqo.AD00T.S8b/6/wDGsHdC",
       updatedAt: "2025-10-15T09:59:49.845Z",
@@ -291,43 +291,26 @@ const Admins = () => {
         <div className="">
           {filteredAdmins.length <= 0 ? (
             <div className="text-white text-3xl text-center mx-auto font-bold my-5">
-              ! No Admins Except You
+              No Admins !
             </div>
           ) : (
-            <div className="flex p-2.5 gap-x-5 gap-y-10 justify-evenly flex-wrap">
+            <div className="flex p-2.5 gap-x-10 gap-y-10 justify-evenly flex-wrap">
               {filteredAdmins.map((member, idx) => (
                 <div
                   key={idx}
-                  className="rounded-lg flex flex-col h-96 bg-gray-300 shadow-md hover:shadow-lg pt-3.5 transition-shadow duration-300 text-center w-full sm:w-90 lg:w-72  overflow-hidden"
+                  className="rounded-lg flex flex-col h-96 bg-white shadow-md hover:shadow-lg pt-3.5 transition-shadow duration-300 text-center w-[70%] sm:w-90 lg:w-72 overflow-hidden"
                 >
-                  {/* <div className="w-full h-1/2">
-                    {member.image ? (
-                      <Avatar className={"w-full h-full rounded-full bg-red-400"}>
-                        <AvatarImage
-                          src={`${BackendUrl}/${member.image}`}
-                          alt="profile image"
-                          className="object-cover w-full h-full"
-                        />
-                      </Avatar>
-                    ) : (
-                      <div className="uppercase  text-black flex text-7xl  items-center justify-center h-full w-full bg-gray-200">
-                        {member.name
-                          ? member.name.charAt(0)
-                          : member.email.charAt(0)}
-                      </div>
-                    )}
-                  </div> */}
-                  <div className="relative flex gap-2.5 cursor-pointer  transition duration-500 rounded-md  items-center justify-center">
-                    <Avatar className="w-1/2 h-full  border-[1px] overflow-hidden">
+                  <div className="relative flex gap-2.5 cursor-pointer transition duration-500 rounded-md  items-center justify-center">
+                    <Avatar className="w-[50%] h-auto  rounded-full border-[1px]  overflow-hidden">
                       {member.image !== null ? (
                         <AvatarImage
-                          src={`${BackendUrl}/${member.image}`}
+                          src={`${member.image}`}
                           alt="profile imgage"
-                          className="object-cover bg-black w-full h-full"
+                          className="object-cover rounded-full bg-black"
                         />
                       ) : (
                         <div
-                          className={`uppercase w-full h-full bg-blue-400 text-3xl text-black flex items-center text-center m-auto justify-center rounded-full`}
+                          className={`uppercase aspect-square size-full border border-black  text-5xl text-black flex items-center text-center m-auto justify-center rounded-full`}
                         >
                           {member.name
                             ? member.name.split("").shift()
@@ -336,7 +319,7 @@ const Admins = () => {
                       )}
                     </Avatar>
                   </div>
-                  <div className="flex flex-col items-center justify-center flex-1 py-2">
+                  <div className="flex flex-col items-center justify-center flex-1 gap-y-2.5 py-2">
                     <p className="text-xl font-semibold text-gray-800">
                       {member.name}
                     </p>

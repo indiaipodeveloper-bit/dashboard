@@ -177,7 +177,7 @@ const Profile = () => {
       </div>
       <div className="w-1/2">
         <Button
-          className="h-16 cursor-pointer w-full bg-purple-700 hover:bg-purple-900 transition-all duration-300"
+          className="h-16 cursor-pointer rounded-full w-full bg-purple-700 hover:bg-purple-900 transition-all duration-300"
           onClick={() => {
             saveChanges();
           }}
