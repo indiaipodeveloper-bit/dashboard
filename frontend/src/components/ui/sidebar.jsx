@@ -22,6 +22,10 @@ import {
 import { Button } from "./button";
 import { cn } from "../../../lib/utils";
 import { useIsMobile } from "../../../hooks/use-mobile";
+import { useDispatch, useSelector } from "react-redux";
+import { FaArrowRight } from "react-icons/fa";
+import {HiMiniBars3BottomLeft} from "react-icons/hi2"
+import { setSideBar } from "../../redux/slices/SideBarSlice";
 
 const SIDEBAR_COOKIE_NAME = "sidebar_state"
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7
@@ -159,7 +163,7 @@ function Sidebar({
           data-sidebar="sidebar"
           data-slot="sidebar"
           data-mobile="true"
-          className="bg-sidebar text-sidebar-foreground w-(--sidebar-width) p-0 [&>button]:hidden"
+          className="bg-[#222529] border-none outline-none text-sidebar-foreground w-(--sidebar-width) p-0 [&>button]:hidden"
           style={
             {
               "--sidebar-width": SIDEBAR_WIDTH_MOBILE
@@ -198,7 +202,7 @@ function Sidebar({
       <div
         data-slot="sidebar-container"
         className={cn(
-          "fixed inset-y-0 z-10 hidden h-svh w-(--sidebar-width) transition-[left,right,width] duration-200 ease-linear md:flex",
+          "fixed inset-y-0 z-10 hidden border-none h-svh w-(--sidebar-width) transition-[left,right,width] duration-200 ease-linear md:flex",
           side === "left"
             ? "left-0 group-data-[collapsible=offcanvas]:left-[calc(var(--sidebar-width)*-1)]"
             : "right-0 group-data-[collapsible=offcanvas]:right-[calc(var(--sidebar-width)*-1)]",
@@ -225,6 +229,8 @@ function SidebarTrigger({
   onClick,
   ...props
 }) {
+  const isSideBar = useSelector((state)=>state.sidebar.isSideBar)
+  const dispatch = useDispatch()
   const { toggleSidebar } = useSidebar()
 
   return (
@@ -233,13 +239,14 @@ function SidebarTrigger({
       data-slot="sidebar-trigger"
       variant="ghost"
       size="icon"
-      className={("size-7 text-6xl", className)}
+      className={"text-2xl cursor-pointer"}
       onClick={(event) => {
         onClick?.(event)
         toggleSidebar()
+        dispatch(setSideBar())
       }}
       {...props}>
-      <PanelLeftIcon />
+        {isSideBar ? <FaArrowRight/> : <HiMiniBars3BottomLeft/> }
       <span className="sr-only">Toggle Sidebar</span>
     </Button>
   );

@@ -12,7 +12,7 @@ const PORT = process.env.PORT || 5000;
 
 app.use(
   cors({
-    origin: process.env.ORIGIN,
+    origin: "http://localhost:5173",
     credentials: true,
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
   })
@@ -21,15 +21,20 @@ app.use(
 app.use(cookieParser());
 app.use(express.json());
 
+
 app.use("/uploads/profiles", express.static("uploads/profiles"));
-app.use("/uploads/files", express.static("uploads/files"));
 
 
 app.use("/admin",AdminRouter)
 app.use("/",UserRouter)
 
+app.get("/",(req,res)=>{
+  return res.send("dashboard backend")
+})
 
-connect("mongodb://127.0.0.1:27017/dashboard")
+console.log(process.env.MONGOURI)
+connect(process.env.MONGOURI)
+
   .then(() => {
     console.log("db connected");
     app.listen(PORT, () => {

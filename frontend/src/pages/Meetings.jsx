@@ -1,8 +1,12 @@
 import React from 'react'
+import { useEffect } from 'react'
 
 const Meetings = () => {
+  
   return (
-    <div>Meetings</div>
+    <div className='text-white'>
+      this is the meeting page
+    </div>
   )
 }
 
