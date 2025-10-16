@@ -53,7 +53,7 @@ export function UserTable() {
             <Avatar className="rounded-full w-10 h-10 border-[1px]">
               {user.image ? (
                 <AvatarImage
-                  src={`${user.image}`}
+                  src={`${BackendUrl}/${user.image}`}
                   alt="profile imgage"
                   className="object-cover w-full h-full"
                 />
