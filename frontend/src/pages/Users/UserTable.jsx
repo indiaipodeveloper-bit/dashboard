@@ -51,11 +51,11 @@ export function UserTable() {
         return (
           <div className="h-full w-full">
             <Avatar className="rounded-full w-10 h-10 border-[1px]">
-              {user.image !== null ? (
+              {user.image ? (
                 <AvatarImage
-                  src={`${BackendUrl}/${user.image}`}
+                  src={`${user.image}`}
                   alt="profile imgage"
-                  className="object-cover bg-black w-full h-full"
+                  className="object-cover w-full h-full"
                 />
               ) : (
                 <div
