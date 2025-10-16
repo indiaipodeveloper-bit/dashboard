@@ -231,7 +231,7 @@ export function UserTable() {
 
         <Button
           variant="outline"
-          className="ml-auto border-none hover:-translate-y-1.5 transition-all duration-500 cursor-pointer text-white hover:bg-blue-500 bg-blue-600"
+          className="ml-auto border-none hover:-translate-y-1.5 transition-all duration-500 cursor-pointer px-5 py-2.5 rounded-lg text-white hover:bg-blue-500 bg-blue-600"
         >
           Add New
         </Button>
