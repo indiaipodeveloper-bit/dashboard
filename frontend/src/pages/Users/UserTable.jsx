@@ -19,13 +19,6 @@ import {
   TableHeader,
   TableRow,
 } from "../../components/ui/table";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-} from "../../components/ui/dropdown-menu";
 import { Switch } from "../../components/ui/switch";
 import axios from "axios";
 import { BackendUrl } from "../../assets/constant";
@@ -43,10 +36,42 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "../../components/ui/alert-dialog";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "../../components/ui/dialog";
+import { Label } from "../../components/ui/label";
 
 export function UserTable() {
   const allusers = useSelector((state) => state.users.allUsers);
-  const [users, setUsers] = useState(allusers);
+  const [users, setUsers] = useState([
+    {
+      name: "John Doe",
+      email: "johndoe@example.com",
+      phone: "9876543210",
+      password: "password123",
+      gender: "Male",
+      isActive: true,
+      image: "https://randomuser.me/api/portraits/men/1.jpg",
+      isAdmin: false,
+    },
+    {
+      name: "Jane Smith",
+      email: "janesmith@example.com",
+      phone: "9876543211",
+      password: "password123",
+      gender: "Female",
+      isActive: true,
+      image: "https://randomuser.me/api/portraits/women/2.jpg",
+      isAdmin: false,
+    },
+  ]);
 
   const columns = [
     {
@@ -166,27 +191,32 @@ export function UserTable() {
       cell: ({ row }) => {
         const user = row.original;
         return (
-          <div className="text-left font-medium">
-            <AlertDialog>
+          <div className="text-left font-medium ">
+            <AlertDialog className="">
               <AlertDialogTrigger>
-                <MdDelete className="inline mr-1 text-2xl text-red-600" />
+                <MdDelete className="inline mr-1 text-2xl cursor-pointer text-red-600" />
               </AlertDialogTrigger>
-              <AlertDialogContent>
+              <AlertDialogContent className={"bg-[#1a1d21] outline-none border-none"}>
                 <AlertDialogHeader>
-                  <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                  <AlertDialogDescription>
+                  <AlertDialogTitle className={"text-white"}>
+                    Are you absolutely sure?
+                  </AlertDialogTitle>
+                  <AlertDialogDescription className={"text-gray-300"}>
                     This action cannot be undone. This will permanently delete
-                    your account and remove your data from our servers.
+                    the account from the servers.
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogCancel className={"cursor-pointer"}>
+                    Cancel
+                  </AlertDialogCancel>
                   <AlertDialogAction
                     onClick={() => {
                       handleDeleteUserByAdmin(user);
                     }}
+                    className={"cursor-pointer hover:bg-red-500"}
                   >
-                    Continue
+                    Delete
                   </AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>
@@ -262,7 +292,7 @@ export function UserTable() {
 
   return (
     <div className="text-white m-auto px-5">
-      <div className="flex justify-center items-center py-4">
+      <div className="flex justify-between items-center py-4">
         <Input
           placeholder="Filter emails..."
           value={table.getColumn("email")?.getFilterValue() ?? ""}
@@ -272,12 +302,47 @@ export function UserTable() {
           className="max-w-sm"
         />
 
-        <Button
-          variant="outline"
-          className="ml-auto border-none hover:-translate-y-1.5 transition-all duration-500 cursor-pointer px-5 py-2.5 rounded-lg text-white hover:bg-blue-500 bg-blue-600"
-        >
-          Add New
-        </Button>
+        <Dialog>
+          <form>
+            <DialogTrigger asChild>
+              <Button
+                className="ml-auto border-none hover:-translate-y-1.5 transition-all duration-500 cursor-pointer px-5 py-2.5 rounded-lg text-white hover:bg-blue-500 bg-blue-600"
+                variant="outline"
+              >
+                Add New
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[425px]">
+              <DialogHeader>
+                <DialogTitle>Edit profile</DialogTitle>
+                <DialogDescription>
+                  Make changes to your profile here. Click save when you&apos;re
+                  done.
+                </DialogDescription>
+              </DialogHeader>
+              <div className="grid gap-4">
+                <div className="grid gap-3">
+                  <Label htmlFor="name-1">Name</Label>
+                  <Input id="name-1" name="name" defaultValue="Pedro Duarte" />
+                </div>
+                <div className="grid gap-3">
+                  <Label htmlFor="username-1">Username</Label>
+                  <Input
+                    id="username-1"
+                    name="username"
+                    defaultValue="@peduarte"
+                  />
+                </div>
+              </div>
+              <DialogFooter>
+                <DialogClose asChild>
+                  <Button variant="outline">Cancel</Button>
+                </DialogClose>
+                <Button type="submit">Save changes</Button>
+              </DialogFooter>
+            </DialogContent>
+          </form>
+        </Dialog>
       </div>
 
       <div className="overflow-hidden px-5 rounded-md border">
@@ -321,7 +386,7 @@ export function UserTable() {
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  No results.
+                  No Users.
                 </TableCell>
               </TableRow>
             )}

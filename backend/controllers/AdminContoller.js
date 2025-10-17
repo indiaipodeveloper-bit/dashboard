@@ -23,7 +23,7 @@ export async function GetAdminInfo(req, res) {
 export async function getAllAdmins(req, res) {
   try {
     // const allAdmins = await Admins.find({ _id: { $ne: req.user.id } });
-    const allAdmins = await Admins.find({});
+    const allAdmins = await Admins.find({ _id: { $ne: req.user.id } });
     return res.status(200).json({ admins: allAdmins });
   } catch (error) {
     return res.status(500).send("Sorry Internal Server Error !");
@@ -82,8 +82,8 @@ export async function LogoutAdmin(req, res) {
 }
 
 export async function AddNewAdmin(req, res) {
-  const { name, email, adminRole, password } = req.body;
   try {
+    const { name, email, adminRole, password } = req.body;
     const existingAdmin = await Admins.findOne({ email });
     if (existingAdmin) {
       return res.status(400).send("Admin Already Exist");
@@ -101,6 +101,39 @@ export async function AddNewAdmin(req, res) {
     return res
       .status(200)
       .json({ msg: "Admin Successfully Added", newAddedAdmin: admin });
+  } catch (error) {
+    return res.status(500).send("Internal Server Error");
+  }
+}
+
+export async function EditAdminProfile(req, res) {
+  try {
+    const { name, password, adminRole, email } = req.body;
+    console.log(req.body);
+    const updateFields = {};
+    if (name) updateFields.name = name;
+    if (password) updateFields.password = password;
+    if (adminRole) updateFields.adminRole = adminRole;
+    const user = await Admins.findOneAndUpdate(
+      { email },
+      { $set: updateFields },
+      { new: true, runValidators: true }
+    );
+    return res.status(200).json({ user });
+  } catch (error) {
+    return res.status(500).send("Sorry Internal Server Error !");
+  }
+}
+
+export async function DeleteAdminByOnlySuperAdmin(req, res) {
+  try {
+    const { adminDetails } = req.body;
+    console.log(adminDetails);
+    const admin = await Admins.findOneAndDelete({ _id: adminDetails._id });
+    if (!admin) {
+      return res.status(400).send("No Admin Found");
+    }
+    return res.status(200).send("Admin Deleted Successfully");
   } catch (error) {
     return res.status(500).send("Internal Server Error");
   }
@@ -179,12 +212,16 @@ export async function AddProfileImage(req, res) {
 
 export async function UpdateAdminProfile(req, res) {
   try {
-    const { name } = req.body;
-    if (!name) {
-      return res.status(400).send("Name is Required to Update the Profile");
-    }
+    const { name, password } = req.body;
+    const updateFields = {};
+    if (name) updateFields.name = name;
+    if (password) updateFields.password = password;
     const user = await Admins.findOne({ _id: req.user.id });
-    user.name = name;
+    if (!updateFields) {
+      return res.status(200).json({ user });
+    }
+    if (updateFields.name) user.name = name;
+    if (updateFields.password) user.password = password;
     await user.save();
     return res.status(200).json({ user });
   } catch (error) {

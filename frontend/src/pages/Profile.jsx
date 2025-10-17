@@ -9,11 +9,23 @@ import { toast } from "sonner";
 import axios from "axios";
 import { BackendUrl } from "../assets/constant";
 import { setUserInfo } from "../redux/slices/Authslice";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "../components/ui/alert-dialog";
 
 const Profile = () => {
   const navigate = useNavigate();
   const user = useSelector((state) => state.auth.userinfo);
   const [name, setname] = useState("");
+  const [password, setpassword] = useState("");
   const [image, setimage] = useState(null);
   const [hovered, sethovered] = useState(false);
   const fileInputRef = useRef(null);
@@ -25,29 +37,26 @@ const Profile = () => {
     }
   }, [user]);
 
-  const validateProfile = () => {
-    if (!name) {
-      toast.error("Name is required");
-      return false;
-    }
-    return true;
-  };
   const saveChanges = async () => {
-    if (validateProfile()) {
-      try {
-        const res = await axios.post(
-          `${BackendUrl}/admin/update-profile`,
-          { name },
-          { withCredentials: true }
+    try {
+      const res = await axios.post(
+        `${BackendUrl}/admin/update-profile`,
+        { name, password },
+        { withCredentials: true }
+      );
+      if (res.status === 200) {
+        dispatch(
+          setUserInfo({
+            ...user,
+            name: res.data.user.name,
+            image: res.data.user.image,
+          })
         );
-        if (res.status === 200) {
-          dispatch(setUserInfo({ ...user, name: res.data.user.name ,image:res.data.user.image}));
-          toast.success("Profile Updated");
-          navigate("/");
-        }
-      } catch (error) {
-        console.log(error);
+        toast.success("Profile Updated");
+        navigate("/");
       }
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -130,11 +139,35 @@ const Profile = () => {
               <div
                 className="absolute inset-0 flex items-center justify-center bg-black/50 rounded-full cursor-pointer ring-fuchsia-50"
                 onClick={(e) => {
-                  image ? handleDeleteImage() : handleFileInputClick();
+                  !image && handleFileInputClick();
                 }}
               >
                 {image ? (
-                  <FaTrash className="text-white text-3xl cursor-pointer" />
+                  <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                      <Button variant="outline" className={"w-full h-full"}>
+                        <FaTrash className="text-white text-3xl m-auto cursor-pointer" />
+                      </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>
+                          Are you absolutely sure to Delete the Image ?
+                        </AlertDialogTitle>
+                        <AlertDialogDescription>
+                          This action cannot be undone. This will permanently
+                          delete your image from the
+                          servers.
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel className={"cursor-pointer"}>Cancel</AlertDialogCancel>
+                        <AlertDialogAction onClick={handleDeleteImage} className={"bg-red-500  hover:bg-red-400 cursor-pointer"}>
+                          Delete
+                        </AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
                 ) : (
                   <FaPlus className="text-white text-3xl cursor-pointer" />
                 )}
@@ -172,12 +205,23 @@ const Profile = () => {
                 }}
               />
             </div>
+            <div className="w-full">
+              <Input
+                placeholder="Enter New Password"
+                type="text"
+                value={password}
+                className="rounded-lg p-6 bg-[#2c2e3b] border-none"
+                onChange={(e) => {
+                  setpassword(e.target.value);
+                }}
+              />
+            </div>
           </div>
         </div>
       </div>
       <div className="w-1/2">
         <Button
-          className="h-16 cursor-pointer rounded-full w-full bg-purple-700 hover:bg-purple-900 transition-all duration-300"
+          className="h-16 cursor-pointer rounded-full w-full bg-purple-700 hover:bg-purple-900 text-white font-bold transition-all duration-300"
           onClick={() => {
             saveChanges();
           }}

@@ -18,7 +18,9 @@ import {
   AddUser,
   AdminLogin,
   changeUserActiveStatus,
+  DeleteAdminByOnlySuperAdmin,
   DeleteUser,
+  EditAdminProfile,
   GetAdminInfo,
   getAllAdmins,
   getAllUsers,
@@ -41,13 +43,15 @@ router.post(
   upload.single("profile-image"),
   AddProfileImage
 );
+
 router.post('/update-profile',checkAdmin,UpdateAdminProfile)
 router.get("/remove-profile-image",checkAdmin, RemoveProfileImage);
 router.get("/logout",checkAdmin, LogoutAdmin);
 
-router.get("/all-admins", getAllAdmins);
+router.get("/all-admins",checkAdmin, getAllAdmins);
 router.post("/add-admin", checkSuperAdmin, AddNewAdmin);
-// router.delete("/delete-admin")
+router.post("/edit-admin",checkSuperAdmin,EditAdminProfile)
+router.post("/delete-admin",checkSuperAdmin,DeleteAdminByOnlySuperAdmin)
 
 router.get("/all-users", getAllUsers);
 router.post("/add-user", AddUser);
