@@ -144,21 +144,18 @@ export async function changeUserActiveStatus(req, res) {
   }
 }
 
-
-export async function DeleteUser(req,res) {
+export async function DeleteUser(req, res) {
   try {
-    const {email} = req.body
-    const user = await User.findOneAndDelete({email})
-    if(!user){
-      return res.status(400).send("User Does Not Exist")
+    const { email } = req.body;
+    const user = await User.findOneAndDelete({ email });
+    if (!user) {
+      return res.status(400).send("User Does Not Exist");
     }
-    return res.status(200).send("User Deleted Successfully")
+    return res.status(200).send("User Deleted Successfully");
   } catch (error) {
     return res.status(500).send("sorry Internal Server Error");
   }
 }
-
-
 
 export async function AddProfileImage(req, res) {
   try {
@@ -182,15 +179,13 @@ export async function AddProfileImage(req, res) {
 
 export async function UpdateAdminProfile(req, res) {
   try {
-    const {name} = req.body;
+    const { name } = req.body;
     if (!name) {
       return res.status(400).send("Name is Required to Update the Profile");
     }
-    const user = await Admins.findOne(
-      { _id: req.user.id },
-      { name: name },
-      {new: true, runValidators: true }
-    );
+    const user = await Admins.findOne({ _id: req.user.id });
+    user.name = name;
+    await user.save();
     return res.status(200).json({ user });
   } catch (error) {
     return res.status(500).send("Sorry Internal Server Error !");
@@ -210,7 +205,7 @@ export async function RemoveProfileImage(req, res) {
       try {
         fs.unlinkSync(user.image);
       } catch (fileError) {
-        return res.status(400).send("error while removing the image")
+        return res.status(400).send("error while removing the image");
       }
     }
     user.image = null;

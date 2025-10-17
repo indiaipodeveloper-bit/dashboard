@@ -22,8 +22,7 @@ import Profile from "./pages/Profile";
 function App() {
   const trigerRef = useRef(null);
   const location = useLocation();
-  const condition =
-    location.pathname !== "/login" && location.pathname !== "/profile";
+  const condition = location.pathname !== "/login" && location.pathname !== "/profile"
   const dispatch = useDispatch();
   const userInfo = useSelector((state) => state.auth.userinfo);
   const getuserDetails = async () => {
@@ -138,7 +137,7 @@ function App() {
               path="/profile"
               element={
                 <ProtectPrivateRoute>
-                  <Profile />
+                  <Profile/>
                 </ProtectPrivateRoute>
               }
             />

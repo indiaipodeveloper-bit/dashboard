@@ -41,7 +41,7 @@ const Profile = () => {
           { withCredentials: true }
         );
         if (res.status === 200) {
-          dispatch(setUserInfo({ ...user, name: res.data.user.name }));
+          dispatch(setUserInfo({ ...user, name: res.data.user.name ,image:res.data.user.image}));
           toast.success("Profile Updated");
           navigate("/");
         }
@@ -122,7 +122,7 @@ const Profile = () => {
                 <div
                   className={`uppercase h-32 w-32 md:w-48 md:h-48 text-5xl text-white flex items-center justify-center rounded-full`}
                 >
-                  {name ? name("").shift() : user.email.split("").shift()}
+                  {name ? name.split("").shift() : user.email.split("").shift()}
                 </div>
               )}
             </Avatar>
