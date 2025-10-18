@@ -1,15 +1,15 @@
 import "./App.css";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
-import Login from "./pages/Login";
+import Login from "./pages/Auth/Login";
 import { AppSidebar } from "./components/ui/app-sidebar";
-import Analytics from "./pages/Analytics";
-import Users from "./pages/Users";
-import News from "./pages/News";
-import Meetings from "./pages/Meetings";
-import Blogs from "./pages/Blogs";
-import FinancialDetails from "./pages/FinancialDetails";
-import BusinessDetails from "./pages/BusinessDetails";
-import Admins from "./pages/Admins";
+import Analytics from "./pages/Analytics/Analytics";
+import Users from "./pages/Users/Users";
+import News from "./pages/News/News";
+import Meetings from "./pages/Meetings/Meetings";
+import Blogs from "./pages/Blogs/Blogs";
+import FinancialDetails from "./pages/Financials/FinancialDetails";
+import BusinessDetails from "./pages/Business/BusinessDetails";
+import Admins from "./pages/Admins/Admins";
 import Header from "../components/Header";
 import axios from "axios";
 import { BackendUrl } from "./assets/constant";
@@ -17,7 +17,7 @@ import { toast } from "sonner";
 import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setUserInfo } from "./redux/slices/Authslice";
-import Profile from "./pages/Profile";
+import Profile from "./pages/Profile/Profile";
 
 function App() {
   const trigerRef = useRef(null);

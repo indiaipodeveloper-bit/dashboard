@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { toast } from "sonner";
-import { setUserInfo } from "../redux/slices/Authslice";
+import { setUserInfo } from "../../redux/slices/Authslice";
 import axios from "axios";
-import { BackendUrl } from "../assets/constant";
+import { BackendUrl } from "../../assets/constant";
 import { useDispatch } from "react-redux";
 
 export default function Login() {

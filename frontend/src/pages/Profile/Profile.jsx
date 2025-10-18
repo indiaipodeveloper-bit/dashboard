@@ -1,14 +1,14 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { Button } from "../components/ui/button";
-import { Input } from "../components/ui/input";
+import { Button } from "../../components/ui/button";
+import { Input } from "../../components/ui/input";
 import { FaPlus, FaTrash } from "react-icons/fa";
-import { Avatar, AvatarImage } from "../components/ui/avatar";
+import { Avatar, AvatarImage } from "../../components/ui/avatar";
 import { toast } from "sonner";
 import axios from "axios";
-import { BackendUrl } from "../assets/constant";
-import { setUserInfo } from "../redux/slices/Authslice";
+import { BackendUrl } from "../../assets/constant";
+import { setUserInfo } from "../../redux/slices/Authslice";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -19,7 +19,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "../components/ui/alert-dialog";
+} from "../../components/ui/alert-dialog";
 
 const Profile = () => {
   const navigate = useNavigate();

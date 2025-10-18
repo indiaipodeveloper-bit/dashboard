@@ -9,16 +9,16 @@ import {
   Bell,
 } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
-import { setAllAdmins } from "../redux/slices/Admins_Slice";
+import { setAllAdmins } from "../../redux/slices/Admins_Slice";
 import axios from "axios";
-import { BackendUrl } from "../assets/constant";
-import { setAllBlogs } from "../redux/slices/BlogsSlice";
-import { setAllBusinessDetails } from "../redux/slices/BusinessDetailsSlice";
-import { setAllFinancialDetails } from "../redux/slices/FinancialDetailsSlice";
-import { setAllNews } from "../redux/slices/NewsSlice";
+import { BackendUrl } from "../../assets/constant";
+import { setAllBlogs } from "../../redux/slices/BlogsSlice";
+import { setAllBusinessDetails } from "../../redux/slices/BusinessDetailsSlice";
+import { setAllFinancialDetails } from "../../redux/slices/FinancialDetailsSlice";
+import { setAllNews } from "../../redux/slices/NewsSlice";
 import { toast } from "sonner";
-import { setAllMeetings } from "../redux/slices/MeetingsSlice";
-import { setAllUsers } from "../redux/slices/UserSlice";
+import { setAllMeetings } from "../../redux/slices/MeetingsSlice";
+import { setAllUsers } from "../../redux/slices/UserSlice";
 const Analytics = () => {
   const allAdmins = useSelector((state) => state.admins.AllAdmins);
   const allBlogs = useSelector((state) => state.blogs.allBlogs);

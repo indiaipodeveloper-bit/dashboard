@@ -9,10 +9,10 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "../components/ui/dialog";
-import { Button } from "../components/ui/button";
-import { Input } from "../components/ui/input";
-import { Label } from "../components/ui/label";
+} from "../../components/ui/dialog";
+import { Button } from "../../components/ui/button";
+import { Input } from "../../components/ui/input";
+import { Label } from "../../components/ui/label";
 import {
   Select,
   SelectContent,
@@ -21,14 +21,14 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "../components/ui/select";
+} from "../../components/ui/select";
 import { toast } from "sonner";
 import axios from "axios";
-import { BackendUrl } from "../assets/constant";
-import { Checkbox } from "../components/ui/checkbox";
+import { BackendUrl } from "../../assets/constant";
+import { Checkbox } from "../../components/ui/checkbox";
 import { useDispatch, useSelector } from "react-redux";
-import { setNewAdmin } from "../redux/slices/Admins_Slice";
-import { Avatar, AvatarImage } from "../components/ui/avatar";
+import { setNewAdmin } from "../../redux/slices/Admins_Slice";
+import { Avatar, AvatarImage } from "../../components/ui/avatar";
 import { FaTrash } from "react-icons/fa";
 import {
   AlertDialog,
@@ -40,13 +40,13 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "../components/ui/alert-dialog";
+} from "../../components/ui/alert-dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "../components/ui/dropdown-menu";
+} from "../../components/ui/dropdown-menu";
 
 const Admins = () => {
   const allAdmins = useSelector((state) => state.admins.AllAdmins);
