@@ -10,7 +10,7 @@ import { Toaster } from "sonner";
 
 createRoot(document.getElementById("root")).render(
     <BrowserRouter>
-    <Toaster/>
+    <Toaster closeButton/>
       <Provider store={store}>
         <SidebarProvider>
           <App />
