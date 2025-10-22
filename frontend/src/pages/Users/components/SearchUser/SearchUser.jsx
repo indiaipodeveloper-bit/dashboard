@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { Input } from "../../../components/ui/input";
+import { Input } from "../../../../components/ui/input";
 import {
   getCoreRowModel,
   getFilteredRowModel,
@@ -7,14 +7,14 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import AddNewUser from "./AddNewUser";
+import AddNewUser from "../AddNewUser/AddNewUser";
 
-const SearchUser = ({ ReactTableObject, users, columns }) => {
+const SearchUser = ({ setUsers, users, columns }) => {
   const [sorting, setSorting] = useState([]);
   const [columnFilters, setColumnFilters] = useState([]);
   const [columnVisibility, setColumnVisibility] = useState({});
   const [rowSelection, setRowSelection] = useState({});
-  
+
   const table = useReactTable({
     data: users,
     columns,
@@ -34,7 +34,6 @@ const SearchUser = ({ ReactTableObject, users, columns }) => {
     },
   });
 
-  
   return (
     <div className="flex justify-between items-center py-4">
       <Input
@@ -45,7 +44,7 @@ const SearchUser = ({ ReactTableObject, users, columns }) => {
         }
         className="max-w-sm"
       />
-      <AddNewUser/>
+      <AddNewUser setUsers={setUsers} />
     </div>
   );
 };

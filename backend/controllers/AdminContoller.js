@@ -109,7 +109,6 @@ export async function AddNewAdmin(req, res) {
 export async function EditAdminProfile(req, res) {
   try {
     const { name, password, adminRole, email } = req.body;
-    console.log(req.body);
     const updateFields = {};
     if (name) updateFields.name = name;
     if (password) updateFields.password = password;
@@ -128,7 +127,6 @@ export async function EditAdminProfile(req, res) {
 export async function DeleteAdminByOnlySuperAdmin(req, res) {
   try {
     const { adminDetails } = req.body;
-    console.log(adminDetails);
     const admin = await Admins.findOneAndDelete({ _id: adminDetails._id });
     if (!admin) {
       return res.status(400).send("No Admin Found");
@@ -141,7 +139,10 @@ export async function DeleteAdminByOnlySuperAdmin(req, res) {
 
 export async function AddUser(req, res) {
   try {
-    const { name, email, password, phone, gender, isActive } = req.body;
+    const { name, email, password, phone, gender, isAdmin } = req.body;
+    if ((!name || !email || !phone || !password || !gender, !isAdmin)) {
+      return res.status(400).send("All The Details Are Required");
+    }
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).send("User Already Exist");
@@ -154,7 +155,7 @@ export async function AddUser(req, res) {
       password: hashedPassword,
       phone,
       gender,
-      isActive,
+      isAdmin,
     });
     return res.status(200).json({ user });
   } catch (error) {

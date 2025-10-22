@@ -1,5 +1,7 @@
 import { Dialog } from "@radix-ui/react-dialog";
 import React, { useRef, useState } from "react";
+import axios from "axios";
+import { toast } from "sonner";
 import {
   DialogClose,
   DialogContent,
@@ -8,15 +10,15 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "../../../components/ui/dialog";
-import { Button } from "../../../components/ui/button";
-import { Input } from "../../../components/ui/input";
-import { FiPlus } from "react-icons/fi";
-import { Label } from "../../../components/ui/label";
-import { Checkbox } from "../../../components/ui/checkbox";
-import { RadioGroup, RadioGroupItem } from "../../../components/ui/radio-group";
+} from "../../../../components/ui/dialog";
+import { Checkbox } from "../../../../components/ui/checkbox";
+import { Input } from "../../../../components/ui/input";
+import { Label } from "../../../../components/ui/label";
+import { Button } from "../../../../components/ui/button";
+import { FiPlus} from "react-icons/fi";
+import { RadioGroup, RadioGroupItem } from "../../../../components/ui/radio-group";
 
-const AddNewUser = () => {
+const AddNewUser = ({ setUsers }) => {
   const [showPassword, setshowPassword] = useState(false);
   const closeUserFormRef = useRef(null);
   const [newUserDetails, setNewUserDetails] = useState({
@@ -29,8 +31,19 @@ const AddNewUser = () => {
   });
 
   const handleAddNewUser = async () => {
-    console.log(newUserDetails);
-    closeUserFormRef.current.click();
+    try {
+      const res = await axios.post(
+        `${BackendUrl}/admin/add-user`,
+        newUserDetails,
+        { withCredentials: true }
+      );
+      if (res.status == 200) {
+        setUsers((prev) => [...prev, res.data.user]);
+        closeUserFormRef.current.click();
+      }
+    } catch (error) {
+      toast.error(error.response.data);
+    }
   };
 
   const handleChange = (field, value) => {
