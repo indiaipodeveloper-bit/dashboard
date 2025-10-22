@@ -21,6 +21,7 @@ import {
   DeleteAdminByOnlySuperAdmin,
   DeleteUser,
   EditAdminProfile,
+  EditUser,
   GetAdminInfo,
   getAllAdmins,
   getAllUsers,
@@ -55,6 +56,7 @@ router.post("/delete-admin",checkSuperAdmin,DeleteAdminByOnlySuperAdmin)
 
 router.get("/all-users", getAllUsers);
 router.post("/add-user", AddUser);
+router.post("/edit-user", checkAdmin,EditUser);
 router.post("/change-user-status",checkAdmin, changeUserActiveStatus);
 router.post("/delete-user",checkAdmin, DeleteUser);
 

@@ -17,6 +17,7 @@ import axios from "axios";
 import { toast } from "sonner";
 import UserAvatar from "./components/Usertable/components/UserAvatar/UserAvatar";
 import DeleteUserButton from "./components/Usertable/components/DeleteUserButton/DeleteUserButton";
+import EditUser from "./components/Usertable/components/EditUser/EditUser";
 
 const Users = () => {
   const allusers = useSelector((state) => state.users.allUsers);
@@ -25,7 +26,6 @@ const Users = () => {
   const [columnFilters, setColumnFilters] = useState([]);
   const [columnVisibility, setColumnVisibility] = useState({});
   const [rowSelection, setRowSelection] = useState({});
-  const [selectedUser, setselectedUser] = useState("");
   const columns = [
     {
       accessorKey: "serial",
@@ -110,14 +110,7 @@ const Users = () => {
         const user = row.original;
         return (
           <div className="text-left font-medium">
-            <Button
-              onClick={() => {
-                setselectedUser(user);
-                console.log(selectedUser);
-              }}
-            >
-              <MdEdit className="text-xl cursor-pointer" />
-            </Button>
+              <EditUser user={user} setUsers={setUsers}/>
           </div>
         );
       },
@@ -183,6 +176,9 @@ const Users = () => {
 
   return (
     <div className="text-white px-5 w-full">
+      <div className="mb-4">
+        <h1 className="text-3xl font-bold text-white">Users</h1>
+      </div>
       <SearchUser setUsers={setUsers} columns={columns} users={users} />
       <UserTable table={table} columns={columns} />
     </div>

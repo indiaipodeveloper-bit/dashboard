@@ -34,7 +34,7 @@ export function UserTable({ table, columns }) {
         <TableBody className="cursor-pointer ">
           {table.getRowModel().rows?.length ? (
             table.getRowModel().rows.map((row) => (
-              <TableRow key={row.id}>
+              <TableRow className={"hover:bg-muted/50"} key={row.id}>
                 {row.getVisibleCells().map((cell) => (
                   <TableCell key={cell.id} className="text-center ">
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}

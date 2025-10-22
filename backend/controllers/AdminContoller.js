@@ -163,6 +163,35 @@ export async function AddUser(req, res) {
   }
 }
 
+export async function EditUser(req, res) {
+  console.log("inside controler")
+  try {
+    console.log(req.body)
+    const { name,email, password, phone, gender, isAdmin } = req.body;
+    const updateFields = {};
+    if (name) updateFields.name = name;
+    if (phone) updateFields.phone = phone;
+    if (gender) updateFields.gender = gender;
+    if (password) updateFields.password = password;
+    if (isAdmin) updateFields.isAdmin = isAdmin;
+
+    if (!updateFields) {
+      return res.status(200).send("Profile Updated Successfully");
+    }
+    const user = await User.findOneAndUpdate(
+      { email: email },
+      { $set: updateFields },
+      { new: true, runValidators: true }
+    );
+    if (!user) {
+      return res.status(400).send("User Does Not Exist");
+    }
+    return res.status(200).json({ user });
+  } catch (error) {
+    return res.status(500).send("Sorry Internal Server Error !");
+  }
+}
+
 export async function changeUserActiveStatus(req, res) {
   try {
     const { id } = req.body;

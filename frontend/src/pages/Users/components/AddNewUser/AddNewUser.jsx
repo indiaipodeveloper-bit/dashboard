@@ -17,6 +17,7 @@ import { Label } from "../../../../components/ui/label";
 import { Button } from "../../../../components/ui/button";
 import { FiPlus} from "react-icons/fi";
 import { RadioGroup, RadioGroupItem } from "../../../../components/ui/radio-group";
+import { BackendUrl } from "../../../../assets/constant";
 
 const AddNewUser = ({ setUsers }) => {
   const [showPassword, setshowPassword] = useState(false);
@@ -27,7 +28,7 @@ const AddNewUser = ({ setUsers }) => {
     phone: "",
     password: "",
     gender: "",
-    isAdmin: "false",
+    isAdmin: false,
   });
 
   const handleAddNewUser = async () => {
