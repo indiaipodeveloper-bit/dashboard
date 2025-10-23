@@ -4,7 +4,7 @@ import { User } from "../models/UserModel.js";
 import { setAdminAuthCookie } from "../services/AdminAuth.js";
 import fs, { renameSync, unlinkSync } from "fs";
 import mongoose from "mongoose";
-const maxage = 3 * 24 * 60 * 60 * 1000;
+const maxAge = 3 * 24 * 60 * 60 * 1000;
 
 // <----------------------------------------------- Get Requests ------------------------------------------------------>
 
@@ -59,7 +59,7 @@ export async function AdminLogin(req, res) {
     }
     const cookietoken = setAdminAuthCookie(admin);
     res.cookie("admincookie", cookietoken, {
-      maxage,
+      maxAge,
       secure: true,
       sameSite: "None",
     });

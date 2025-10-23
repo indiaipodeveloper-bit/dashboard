@@ -9,12 +9,12 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "../../../components/ui/alert-dialog";
-import { Button } from "../../../components/ui/button";
+} from "../../../../components/ui/alert-dialog";
+import { Button } from "../../../../components/ui/button";
 import { FaTrash } from "react-icons/fa";
 import axios from "axios";
 import { toast } from "sonner";
-import { BackendUrl } from "../../../assets/constant";
+import { BackendUrl } from "../../../../assets/constant";
 
 const DeleteAdmin = ({member,setadmins}) => {
      const handleDeleteAdminByOnlySuperAdmin = async (member) => {

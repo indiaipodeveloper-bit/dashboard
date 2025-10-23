@@ -8,6 +8,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import AddNewUser from "../AddNewUser/AddNewUser";
+import { FiSearch } from "react-icons/fi";
 
 const SearchUser = ({ setUsers, users, columns }) => {
   const [sorting, setSorting] = useState([]);
@@ -35,16 +36,17 @@ const SearchUser = ({ setUsers, users, columns }) => {
   });
 
   return (
-    <div className="flex justify-between items-center py-4">
+    <div className="flex justify-between items-center ">
+      <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-white" />
+
       <Input
         placeholder="Filter emails..."
         value={table.getColumn("email")?.getFilterValue() ?? ""}
         onChange={(event) =>
           table.getColumn("email")?.setFilterValue(event.target.value)
         }
-        className="max-w-sm"
+        className="w-full pl-10 pr-3 py-2  text-white bg-[#272a2f] outline-none rounded-md"
       />
-      <AddNewUser setUsers={setUsers} />
     </div>
   );
 };

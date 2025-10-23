@@ -18,6 +18,7 @@ import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setUserInfo } from "./redux/slices/Authslice";
 import Profile from "./pages/Profile/Profile";
+import BlogOverview from "./pages/Blogs/components/blogoverview/BlogOverview";
 
 function App() {
   const trigerRef = useRef(null);
@@ -98,6 +99,14 @@ function App() {
               element={
                 <ProtectPrivateRoute>
                   <Meetings />
+                </ProtectPrivateRoute>
+              }
+            />
+            <Route
+              path="/blogs/:slug"
+              element={
+                <ProtectPrivateRoute>
+                  <BlogOverview />
                 </ProtectPrivateRoute>
               }
             />

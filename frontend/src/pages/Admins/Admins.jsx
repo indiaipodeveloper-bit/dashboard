@@ -3,9 +3,9 @@ import { FiSearch } from "react-icons/fi";
 import { BackendUrl } from "../../assets/constant";
 import { useSelector } from "react-redux";
 import { Avatar, AvatarImage } from "../../components/ui/avatar";
-import AddNewAdmin from "./components/AddNewAdmin";
-import EditAdmin from "./components/EditAdmin";
-import DeleteAdmin from "./components/DeleteAdmin";
+import AddNewAdmin from "./components/AddAdmin/AddNewAdmin";
+import EditAdmin from "./components/EditAdmin/EditAdmin";
+import DeleteAdmin from "./components/DeleteAdmin/DeleteAdmin";
 
 const Admins = () => {
   const allAdmins = useSelector((state) => state.admins.AllAdmins);
@@ -20,7 +20,7 @@ const Admins = () => {
     <>
       <div className="">
         <div className="bg-[#222529] shadow-sm px-6 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <h1 className="text-2xl font-semibold text-white">Admins</h1>
+          <p className="text-2xl font-semibold text-white">Admins</p>
           <div className="flex flex-col sm:flex-row sm:items-center gap-3 w-full sm:w-auto">
             <div className="relative w-full sm:w-64">
               <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-white" />
@@ -50,12 +50,12 @@ const Admins = () => {
                 <div
                   key={member._id}
                   className="relative flex flex-col items-center justify-between text-center
-  h-auto w-full sm:w-[85%] md:w-[48%] lg:w-72 xl:w-80
-  rounded-2xl overflow-hidden
-  bg-gradient-to-br from-white/10 via-purple-500/5 to-purple-700/10
-  backdrop-blur-2xl border border-white/10 shadow-xl
-  hover:shadow-purple-500/30 hover:-translate-y-1 hover:scale-[1.02]
-  transition-all duration-500 ease-out p-5"
+h-auto w-full sm:w-[85%] md:w-[48%] lg:w-72 xl:w-80
+rounded-2xl overflow-hidden
+bg-gradient-to-br from-white/10 via-blue-500/5 to-blue-700/10
+backdrop-blur-2xl border border-white/10 shadow-xl
+hover:shadow-blue-500/30 hover:-translate-y-1 hover:scale-[1.02]
+transition-all duration-500 ease-out p-5"
                 >
                   <div className="relative flex justify-center items-center mt-2">
                     <Avatar className="w-28 h-28 rounded-full border-2 border-white/20 overflow-hidden shadow-md">

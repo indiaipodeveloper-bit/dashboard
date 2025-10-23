@@ -8,11 +8,11 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "../../../components/ui/dialog";
+} from "../../../../components/ui/dialog";
 import { FiPlus } from "react-icons/fi";
-import { Button } from "../../../components/ui/button";
-import { Label } from "../../../components/ui/label";
-import { Input } from "../../../components/ui/input";
+import { Button } from "../../../../components/ui/button";
+import { Label } from "../../../../components/ui/label";
+import { Input } from "../../../../components/ui/input";
 import {
   Select,
   SelectContent,
@@ -21,12 +21,12 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "../../../components/ui/select";
-import { Checkbox } from "../../../components/ui/checkbox";
+} from "../../../../components/ui/select";
+import { Checkbox } from "../../../../components/ui/checkbox";
 import { toast } from "sonner";
-import { BackendUrl } from "../../../assets/constant";
+import { BackendUrl } from "../../../../assets/constant";
 import axios from "axios";
-import { setNewAdmin } from "../../../redux/slices/Admins_Slice";
+import { setNewAdmin } from "../../../../redux/slices/Admins_Slice";
 import { useDispatch, useSelector } from "react-redux";
 
 const AddNewAdmin = ({admins,setadmins}) => {

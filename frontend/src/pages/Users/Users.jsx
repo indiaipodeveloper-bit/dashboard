@@ -18,6 +18,8 @@ import { toast } from "sonner";
 import UserAvatar from "./components/Usertable/components/UserAvatar/UserAvatar";
 import DeleteUserButton from "./components/Usertable/components/DeleteUserButton/DeleteUserButton";
 import EditUser from "./components/Usertable/components/EditUser/EditUser";
+import { FiSearch } from "react-icons/fi";
+import AddNewUser from "./components/AddNewUser/AddNewUser";
 
 const Users = () => {
   const allusers = useSelector((state) => state.users.allUsers);
@@ -110,7 +112,7 @@ const Users = () => {
         const user = row.original;
         return (
           <div className="text-left font-medium">
-              <EditUser user={user} setUsers={setUsers}/>
+            <EditUser user={user} setUsers={setUsers} />
           </div>
         );
       },
@@ -175,12 +177,19 @@ const Users = () => {
   };
 
   return (
-    <div className="text-white px-5 w-full">
-      <div className="mb-4">
-        <h1 className="text-3xl font-bold text-white">Users</h1>
+    <div className="text-white  w-full">
+      <div className="bg-[#222529] shadow-sm px-6 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <p className="text-2xl font-semibold text-white">Users</p>
+        <div className="flex  flex-col sm:flex-row sm:items-center  gap-3 w-full sm:w-auto">
+          <div className="relative bg-blue-400 w-full sm:w-64">
+            <SearchUser setUsers={setUsers} columns={columns} users={users} />
+          </div>
+          <AddNewUser setUsers={setUsers} />
+        </div>
       </div>
-      <SearchUser setUsers={setUsers} columns={columns} users={users} />
-      <UserTable table={table} columns={columns} />
+      <div className="my-2.5">
+        <UserTable table={table} columns={columns} />
+      </div>
     </div>
   );
 };
