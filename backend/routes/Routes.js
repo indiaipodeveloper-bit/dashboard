@@ -11,7 +11,11 @@ import {
   EditBusinessDetails,
   getAllBusinessDetails,
 } from "../controllers/BusinessController.js";
-import { AddBlog, getAllBlogs } from "../controllers/BlogsController.js";
+import {
+  AddBlog,
+  DeleteBlog,
+  getAllBlogs,
+} from "../controllers/BlogsController.js";
 import {
   AddNewAdmin,
   AddProfileImage,
@@ -32,36 +36,38 @@ import {
 import { checkAdmin, checkSuperAdmin } from "../middleware/AdminMiddleware.js";
 import { AddNews, getAllNews } from "../controllers/NewsController.js";
 import multer from "multer";
-const upload = multer({ dest: "uploads/profiles" });
+const uploadProfileImage = multer({ dest: "uploads/profiles" });
+const uploadBlogImage = multer({ dest: "uploads/blogs" });
 
 const router = express.Router();
 
-router.get("/get-adminInfo",checkAdmin, GetAdminInfo);
+router.get("/get-adminInfo", checkAdmin, GetAdminInfo);
 router.post("/login", AdminLogin);
 router.post(
   "/add-profile-image",
   checkAdmin,
-  upload.single("profile-image"),
+  uploadProfileImage.single("profile-image"),
   AddProfileImage
 );
 
-router.post('/update-profile',checkAdmin,UpdateAdminProfile)
-router.get("/remove-profile-image",checkAdmin, RemoveProfileImage);
-router.get("/logout",checkAdmin, LogoutAdmin);
+router.post("/update-profile", checkAdmin, UpdateAdminProfile);
+router.get("/remove-profile-image", checkAdmin, RemoveProfileImage);
+router.get("/logout", checkAdmin, LogoutAdmin);
 
-router.get("/all-admins",checkAdmin, getAllAdmins);
+router.get("/all-admins", checkAdmin, getAllAdmins);
 router.post("/add-admin", checkSuperAdmin, AddNewAdmin);
-router.post("/edit-admin",checkSuperAdmin,EditAdminProfile)
-router.post("/delete-admin",checkSuperAdmin,DeleteAdminByOnlySuperAdmin)
+router.post("/edit-admin", checkSuperAdmin, EditAdminProfile);
+router.post("/delete-admin", checkSuperAdmin, DeleteAdminByOnlySuperAdmin);
 
 router.get("/all-users", getAllUsers);
 router.post("/add-user", AddUser);
-router.post("/edit-user", checkAdmin,EditUser);
-router.post("/change-user-status",checkAdmin, changeUserActiveStatus);
-router.post("/delete-user",checkAdmin, DeleteUser);
+router.post("/edit-user", checkAdmin, EditUser);
+router.post("/change-user-status", checkAdmin, changeUserActiveStatus);
+router.post("/delete-user", checkAdmin, DeleteUser);
 
 router.get("/all-blogs", getAllBlogs);
-router.post("/add-blog", AddBlog);
+router.post("/add-blog",checkAdmin,uploadBlogImage.single("blog-image"), AddBlog);
+router.post("/delete-blog", checkAdmin, DeleteBlog);
 
 router.get("/all-business-details", getAllBusinessDetails);
 router.patch("/edit-business-details", EditBusinessDetails);
@@ -74,6 +80,5 @@ router.post("/add-meeting", AddNewMeeting);
 
 router.get("/all-news", getAllNews);
 router.post("/add-news", AddNews);
-
 
 export { router as AdminRouter };

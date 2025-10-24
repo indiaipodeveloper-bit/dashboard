@@ -122,7 +122,6 @@ const Profile = () => {
             <Avatar className="h-32 w-32 md:w-48  md:h-48 rounded-full border-[1px] overflow-hidden">
               {image ? (
                 <AvatarImage
-                  // src={`${BackendUrl}/${user.image}`}
                   src={image}
                   alt="profile imgage"
                   className="object-cover w-full h-full bg-cover bg-black"

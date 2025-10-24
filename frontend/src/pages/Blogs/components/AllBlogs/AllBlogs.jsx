@@ -4,17 +4,22 @@ import { FaLink, FaRegCalendarAlt } from "react-icons/fa";
 import { Button } from "../../../../components/ui/button";
 import { MdDelete, MdEdit } from "react-icons/md";
 import { Link } from "react-router-dom";
+import Deleteblog from "./components/Deleteblog";
+import { BackendUrl } from "../../../../assets/constant";
 
 const AllBlogs = ({ blogs }) => {
   const [selectedBlog, setselectedBlog] = useState("");
+  const [allBlogs, setallBlogs] = useState(blogs);
 
   return (
     <>
       {blogs.length < 1 ? (
-        <div className="text-3xl text-white font-bold text-center relative top-44">No Blogs!</div>
+        <div className="text-3xl text-white font-bold text-center relative top-44">
+          No Blogs!
+        </div>
       ) : (
         <div className="flex gap-x-10 gap-y-10 mt-5 mx-auto p-5 items-start justify-center flex-wrap">
-          {blogs.map((blog) => {
+          {allBlogs.map((blog) => {
             return (
               <div
                 key={blog._id}
@@ -24,12 +29,12 @@ const AllBlogs = ({ blogs }) => {
           hover:shadow-purple-500/30 hover:-translate-y-1 transition-all duration-500 p-4 md:p-5"
               >
                 {/* Blog Image */}
-                <div className="w-full md:w-1/3 rounded-xl overflow-hidden shadow-md">
+                <div className="w-full h-56 md:w-1/3 bg-red-600 rounded-xl overflow-hidden shadow-md">
                   {blog.image ? (
                     <img
                       src={`${BackendUrl}/${blog.image}`}
-                      alt={blog.title}
-                      className="object-cover w-full h-5 md:h-44 rounded-xl"
+                      alt={blog.image}
+                      className="w-full h-full rounded-xl"
                     />
                   ) : (
                     <div className="w-full h-56 bg-white/10 text-white text-4xl flex items-center justify-center font-semibold rounded-xl">
@@ -44,7 +49,7 @@ const AllBlogs = ({ blogs }) => {
                     {blog.title}
                   </p>
                   <p className="text-sm md:text-base text-white/70 line-clamp-3">
-                    {blog.description}
+                    {blog.subDescription}
                   </p>
                   <div className="flex gap-x-3 flex-wrap sm:justify-start justify-center text-white/60 items-center gap-1">
                     <div className="flex gap-x-1 flex-wrap justify-center items-center">
@@ -55,16 +60,14 @@ const AllBlogs = ({ blogs }) => {
                     </div>
                     <div className="flex gap-x-2.5">
                       <Button
-                        onClick={() => setselectedBlog(blog)}
+                        // onClick={() => setselectedBlog(blog)}
                         className="cursor-pointer  transition-all duration-500 justify-center gap-2 text-green-400   "
                         variant="outline"
                       >
                         <MdEdit className="text-xl cursor-pointer  " />
                       </Button>
 
-                      <Button onClick={() => setselectedBlog(blog)}>
-                        <MdDelete className="mr-1 text-xl text-red-400 cursor-pointer" />
-                      </Button>
+                      <Deleteblog setallBlogs={setallBlogs} blog={blog} />
                     </div>
                   </div>
 

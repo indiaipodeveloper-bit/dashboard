@@ -164,9 +164,7 @@ export async function AddUser(req, res) {
 }
 
 export async function EditUser(req, res) {
-  console.log("inside controler")
   try {
-    console.log(req.body)
     const { name,email, password, phone, gender, isAdmin } = req.body;
     const updateFields = {};
     if (name) updateFields.name = name;

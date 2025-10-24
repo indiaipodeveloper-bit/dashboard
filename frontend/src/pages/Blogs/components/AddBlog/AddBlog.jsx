@@ -2,23 +2,17 @@ import React, { useMemo, useRef, useState } from "react";
 import JoditEditor from "jodit-react";
 import { Button } from "../../../../components/ui/button";
 import { ImCross } from "react-icons/im";
+import axios from "axios";
+import { BackendUrl } from "../../../../assets/constant";
+import { toast } from "sonner";
 
-const AddBlog = ({ setisAddBlog, isAddBlog, placeholder }) => {
+const AddBlog = ({setblogs, setisAddBlog, placeholder }) => {
   const editor = useRef(null);
-  const [newBlogData, setnewBlogData] = useState({
-    title: "",
-    slug: "",
-    subDescription: "",
-    description: "",
-    image: "",
-  });
-
-  const handleChange = (e) => {
-    setnewBlogData((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
-  };
+  const [title, settitle] = useState("");
+  const [slug, setslug] = useState("");
+  const [subDescription, setsubDescription] = useState("");
+  const [description, setdescription] = useState("");
+  const [image, setimage] = useState(null);
 
   const config = useMemo(
     () => ({
@@ -35,6 +29,27 @@ const AddBlog = ({ setisAddBlog, isAddBlog, placeholder }) => {
     }),
     [placeholder]
   );
+
+  const handleAddBlog = async () => {
+    try {
+      const formData = new FormData();
+    formData.append("title", title);
+    formData.append("slug", slug);
+    formData.append("subDescription", subDescription);
+    formData.append("description", description);
+    formData.append("blog-image", image);
+    const res = await axios.post(`${BackendUrl}/admin/add-blog`, formData, {
+      withCredentials: true,
+    });
+  if(res.status == 200){
+    toast.success("Blog Added Successfully")
+    setblogs((prev)=>[...prev,res.data.blog])
+    setisAddBlog(false)
+  }    
+    } catch (error) {
+      toast.error(error.response.data)
+    }
+  };
   return (
     <div className="w-full h-full relative flex items-center my-5 justify-center text-white">
       <Button
@@ -55,7 +70,10 @@ const AddBlog = ({ setisAddBlog, isAddBlog, placeholder }) => {
           </label>
           <input
             name="title"
-            onChange={handleChange}
+            onChange={(e) => {
+              settitle(e.target.value);
+              setslug(e.target.value.split(" ").join("-"));
+            }}
             type="text"
             placeholder="Enter blog title"
             className="w-full border border-gray-600 bg-gray-800 rounded-lg p-3 text-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder-gray-500"
@@ -70,8 +88,8 @@ const AddBlog = ({ setisAddBlog, isAddBlog, placeholder }) => {
           <input
             type="text"
             name="slug"
-            onChange={handleChange}
-            defaultValue={newBlogData.title.split(" ").join("-")}
+            onChange={(e) => setslug(e.target.value.split(" ").join("-"))}
+            value={slug}
             placeholder="Enter slug (e.g., my-first-blog)"
             className="w-full border border-gray-600 bg-gray-800 rounded-lg p-3 text-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder-gray-500"
           />
@@ -85,7 +103,7 @@ const AddBlog = ({ setisAddBlog, isAddBlog, placeholder }) => {
           <input
             type="text"
             name="subDescription"
-            onChange={handleChange}
+            onChange={(e) => setsubDescription(e.target.value)}
             placeholder="Write the blog sub description here..."
             className="w-full border border-gray-600 bg-gray-800 rounded-lg p-3 text-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder-gray-500"
           />
@@ -103,12 +121,8 @@ const AddBlog = ({ setisAddBlog, isAddBlog, placeholder }) => {
               ref={editor}
               config={config}
               tabIndex={1}
-              onBlur={(e) =>
-                setnewBlogData((prev) => ({ ...prev, description: e }))
-              }
-              onChange={(e) =>
-                setnewBlogData((prev) => ({ ...prev, description: e }))
-              }
+              onBlur={(e) => setdescription(e)}
+              onChange={(e) => setdescription(e)}
             />
           </div>
         </div>
@@ -119,9 +133,7 @@ const AddBlog = ({ setisAddBlog, isAddBlog, placeholder }) => {
             Upload Image
           </label>
           <input
-            onChange={(e) =>
-              setnewBlogData((prev) => ({ ...prev, image: e.target.files[0] }))
-            }
+            onChange={(e) => setimage(e.target.files[0])}
             type="file"
             name="image"
             accept=".png,.jpg,.jpeg,.svg,.webp"
@@ -132,9 +144,7 @@ const AddBlog = ({ setisAddBlog, isAddBlog, placeholder }) => {
         {/* Button */}
         <div className="pt-4">
           <button
-            onClick={() => {
-              console.log(newBlogData);
-            }}
+            onClick={handleAddBlog}
             type="button"
             className="w-full bg-indigo-600 text-white py-3 cursor-pointer rounded-lg font-medium hover:bg-indigo-700 hover:scale-[1.02] active:scale-95 transition-all duration-300 shadow-lg shadow-indigo-600/20"
           >

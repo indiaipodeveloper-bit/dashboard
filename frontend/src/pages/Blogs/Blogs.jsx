@@ -11,9 +11,9 @@ const Blogs = () => {
   const [blogs, setblogs] = useState(allBlogs);
   const [searchBlog, setsearchBlog] = useState("");
   const [isAddBlog, setisAddBlog] = useState(false);
-  const filteredBlogs = blogs.filter((blog) => {
-    return blog.title.toLowerCase().includes(searchBlog.toLowerCase());
-  });
+  // const filteredBlogs = blogs.filter((blog) => {
+  //   return blog.title.toLowerCase().includes(searchBlog.toLowerCase());
+  // });
   return (
     <div className="">
       <div className="bg-[#222529] shadow-sm px-6 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
@@ -42,11 +42,11 @@ const Blogs = () => {
       {isAddBlog ? (
         <div className="bg-[#1a1d21] backdrop:blur-2xl w-[90%] z-50  m-auto">
           
-          <AddBlog setisAddBlog={setisAddBlog} />
+          <AddBlog setblogs={setblogs} setisAddBlog={setisAddBlog} />
         </div>
       ) : (
         <div className="">
-          <AllBlogs blogs={filteredBlogs} />
+          <AllBlogs blogs={blogs} />
         </div>
       )}
     </div>
