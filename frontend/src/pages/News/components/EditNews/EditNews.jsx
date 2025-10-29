@@ -1,25 +1,29 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
-import JoditEditor from "jodit-react";
+import React, { useMemo, useRef, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "../../../../components/ui/button";
 import { ImCross } from "react-icons/im";
-import axios from "axios";
+import JoditEditor from "jodit-react";
 import { BackendUrl } from "../../../../assets/constant";
+import axios from "axios";
 import { toast } from "sonner";
-import { useLocation } from "react-router-dom";
 
-const AddBlog = ({ setblogs, setisAddBlog, placeholder }) => {
+const EditNews = ({ placeholder }) => {
+  const navigate = useNavigate();
   const editor = useRef(null);
-  const [title, settitle] = useState("");
-  const [slug, setslug] = useState("");
-  const [subDescription, setsubDescription] = useState("");
-  const [description, setdescription] = useState("");
+  const location = useLocation();
+  const editNewsData = location.state;
+  const [title, settitle] = useState(editNewsData.title);
+  const [slug, setslug] = useState(editNewsData.slug);
+  const [subDescription, setsubDescription] = useState(
+    editNewsData.subDescription
+  );
+  const [description, setdescription] = useState(editNewsData.description);
   const [image, setimage] = useState(null);
-  
 
   const config = useMemo(
     () => ({
       readonly: false,
-      placeholder: placeholder || "Blog Description...",
+      placeholder: placeholder || "News Description...",
       minHeight: 400,
       width: "100%",
       style: {
@@ -36,13 +40,9 @@ const AddBlog = ({ setblogs, setisAddBlog, placeholder }) => {
     [placeholder]
   );
 
-  const valiDateBlogForm = () => {
+  const valiDateNewsForm = () => {
     if (!title) {
       toast.error("Title is required");
-      return false;
-    }
-    if (!slug) {
-      toast.error("Slug is Required");
       return false;
     }
     if (!subDescription) {
@@ -53,39 +53,33 @@ const AddBlog = ({ setblogs, setisAddBlog, placeholder }) => {
       toast.error("Description is Required");
       return false;
     }
-    if (!image) {
-      toast.error("Image is Required");
-      return false;
-    }
+
     return true;
   };
 
-  const handleAddBlog = async () => {
-    try {
-      const formData = new FormData();
-      formData.append("title", title);
-      formData.append("slug", slug);
-      formData.append("subDescription", subDescription);
-      formData.append("description", description);
-      formData.append("blog-image", image);
-      const res = await axios.post(`${BackendUrl}/admin/add-blog`, formData, {
-        withCredentials: true,
-      });
-      if (res.status == 200) {
-        toast.success("Blog Added Successfully");
-        setblogs((prev) => [...prev, res.data.blog]);
-        setisAddBlog(false);
-      }
-    } catch (error) {
-      toast.error(error.response.data);
+   const handleSubmitEditedNews = async () => {
+    const formData = new FormData();
+    formData.append("_id", editNewsData._id);
+    formData.append("title", title);
+    formData.append("subDescription", subDescription);
+    formData.append("description", description);
+    if (image) {
+      formData.append("news-image", image);
+    }
+    const res = await axios.post(`${BackendUrl}/admin/edit-news`, formData, {
+      withCredentials: true,
+    });
+    if (res.status == 200) {
+      toast.success("News Updated Successfully");
+      navigate("/news", { state: res.data.news });
     }
   };
 
   return (
     <div className="w-full h-full relative flex items-center my-5 justify-center text-white">
       <Button
-        onClick={() => setisAddBlog(false)}
-        className="text-white  absolute right-2.5 top-2.5"
+        onClick={() => navigate("/news")}
+        className="text-white  absolute right-5 top-2.5"
       >
         <ImCross className="cursor-pointer text-2xl" />
       </Button>
@@ -93,7 +87,7 @@ const AddBlog = ({ setblogs, setisAddBlog, placeholder }) => {
         className={`w-full bg-gradient-to-br  shadow-2xl rounded-2xl p-8  space-y-6`}
       >
         <p className="text-3xl font-semibold text-center text-indigo-400">
-          Add New Blog
+          Edit News
         </p>
 
         {/* Title */}
@@ -104,30 +98,13 @@ const AddBlog = ({ setblogs, setisAddBlog, placeholder }) => {
           <input
             value={title}
             name="title"
-            onChange={(e) => {
-              settitle(e.target.value);
-              setslug(e.target.value.split(" ").join("-"));
-            }}
+            onChange={(e) => settitle(e.target.value)}
             type="text"
-            placeholder="Enter blog title"
+            placeholder="Enter news title"
             className="w-full border border-gray-600 bg-gray-800 rounded-lg p-3 text-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder-gray-500"
           />
         </div>
 
-        {/* Slug */}
-        <div className="space-y-2">
-          <label className="block text-sm font-medium text-gray-300">
-            Slug
-          </label>
-          <input
-            type="text"
-            name="slug"
-            onChange={(e) => setslug(e.target.value.split(" ").join("-"))}
-            value={slug}
-            placeholder="Enter slug (e.g., my-first-blog)"
-            className="w-full border border-gray-600 bg-gray-800 rounded-lg p-3 text-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder-gray-500"
-          />
-        </div>
 
         {/* Sub Description */}
         <div className="space-y-2">
@@ -139,7 +116,7 @@ const AddBlog = ({ setblogs, setisAddBlog, placeholder }) => {
             type="text"
             name="subDescription"
             onChange={(e) => setsubDescription(e.target.value)}
-            placeholder="Write the blog sub description here..."
+            placeholder="Write the news sub description here..."
             className="w-full border border-gray-600 bg-gray-800 rounded-lg p-3 text-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder-gray-500"
           />
         </div>
@@ -181,14 +158,14 @@ const AddBlog = ({ setblogs, setisAddBlog, placeholder }) => {
         <div className="pt-4">
           <button
             onClick={() => {
-              if (valiDateBlogForm()) {
-                handleAddBlog();
+              if (valiDateNewsForm()) {
+                handleSubmitEditedNews();
               }
             }}
             type="button"
             className="w-full bg-indigo-600 text-white py-3 cursor-pointer rounded-lg font-medium hover:bg-indigo-700 hover:scale-[1.02] active:scale-95 transition-all duration-300 shadow-lg shadow-indigo-600/20"
           >
-            Add Blog
+            Update News
           </button>
         </div>
       </div>
@@ -196,4 +173,4 @@ const AddBlog = ({ setblogs, setisAddBlog, placeholder }) => {
   );
 };
 
-export default AddBlog;
+export default EditNews;

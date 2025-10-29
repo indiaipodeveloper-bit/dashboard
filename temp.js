@@ -1,5 +1,4 @@
-let ar = [1,2,3,4]
+let ar = ""
 
 
-let ar2 = ar.filter()
-console.log(ar2)
+console.log(!!ar)

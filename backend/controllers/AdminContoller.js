@@ -23,7 +23,7 @@ export async function GetAdminInfo(req, res) {
 export async function getAllAdmins(req, res) {
   try {
     // const allAdmins = await Admins.find({ _id: { $ne: req.user.id } });
-    const allAdmins = await Admins.find({ _id: { $ne: req.user.id } });
+    const allAdmins = await Admins.find({});
     return res.status(200).json({ admins: allAdmins });
   } catch (error) {
     return res.status(500).send("Sorry Internal Server Error !");
@@ -59,6 +59,7 @@ export async function AdminLogin(req, res) {
     }
     const cookietoken = setAdminAuthCookie(admin);
     res.cookie("admincookie", cookietoken, {
+      httpOnly: true,
       maxAge,
       secure: true,
       sameSite: "None",
@@ -165,7 +166,7 @@ export async function AddUser(req, res) {
 
 export async function EditUser(req, res) {
   try {
-    const { name,email, password, phone, gender, isAdmin } = req.body;
+    const { name, email, password, phone, gender, isAdmin } = req.body;
     const updateFields = {};
     if (name) updateFields.name = name;
     if (phone) updateFields.phone = phone;

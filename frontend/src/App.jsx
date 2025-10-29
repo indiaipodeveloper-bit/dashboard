@@ -7,8 +7,6 @@ import Users from "./pages/Users/Users";
 import News from "./pages/News/News";
 import Meetings from "./pages/Meetings/Meetings";
 import Blogs from "./pages/Blogs/Blogs";
-import FinancialDetails from "./pages/Financials/FinancialDetails";
-import BusinessDetails from "./pages/Business/BusinessDetails";
 import Admins from "./pages/Admins/Admins";
 import Header from "../components/Header";
 import axios from "axios";
@@ -19,11 +17,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { setUserInfo } from "./redux/slices/Authslice";
 import Profile from "./pages/Profile/Profile";
 import BlogOverview from "./pages/Blogs/components/blogoverview/BlogOverview";
+import EditBlog from "./pages/Blogs/components/EditBlog/EditBlog";
+import NewsOverview from "./pages/News/components/NewsOverview/NewsOverview";
+import EditNews from "./pages/News/components/EditNews/EditNews";
+import IpoEligibility from "./pages/ipoEligibility/IpoEligibility"
 
 function App() {
   const trigerRef = useRef(null);
   const location = useLocation();
-  const condition = location.pathname !== "/login" && location.pathname !== "/profile"
+  const condition =
+    location.pathname !== "/login" && location.pathname !== "/profile";
   const dispatch = useDispatch();
   const userInfo = useSelector((state) => state.auth.userinfo);
   const getuserDetails = async () => {
@@ -94,6 +97,26 @@ function App() {
                 </ProtectPrivateRoute>
               }
             />
+
+            <Route
+              path="/news/:slug"
+              element={
+                <ProtectPrivateRoute>
+                  <NewsOverview />
+                </ProtectPrivateRoute>
+              }
+            />
+
+            <Route
+              path="/news/edit-news/:slug"
+              element={
+                <ProtectPrivateRoute>
+                  <EditNews />
+                </ProtectPrivateRoute>
+              }
+              
+            />
+
             <Route
               path="/meetings"
               element={
@@ -111,6 +134,14 @@ function App() {
               }
             />
             <Route
+              path="/blogs/edit-blog/:slug"
+              element={
+                <ProtectPrivateRoute>
+                  <EditBlog />
+                </ProtectPrivateRoute>
+              }
+            />
+            <Route
               path="/blogs"
               element={
                 <ProtectPrivateRoute>
@@ -119,18 +150,10 @@ function App() {
               }
             />
             <Route
-              path="/financial-details"
+              path="/ipo-eligibility"
               element={
                 <ProtectPrivateRoute>
-                  <FinancialDetails />
-                </ProtectPrivateRoute>
-              }
-            />
-            <Route
-              path="/business-details"
-              element={
-                <ProtectPrivateRoute>
-                  <BusinessDetails />
+                  <IpoEligibility />
                 </ProtectPrivateRoute>
               }
             />
@@ -146,7 +169,7 @@ function App() {
               path="/profile"
               element={
                 <ProtectPrivateRoute>
-                  <Profile/>
+                  <Profile />
                 </ProtectPrivateRoute>
               }
             />

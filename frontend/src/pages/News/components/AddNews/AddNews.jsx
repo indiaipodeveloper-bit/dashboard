@@ -1,20 +1,17 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
-import JoditEditor from "jodit-react";
+import axios from "axios";
+import React, { useMemo, useRef, useState } from "react";
+import { BackendUrl } from "../../../../assets/constant";
 import { Button } from "../../../../components/ui/button";
 import { ImCross } from "react-icons/im";
-import axios from "axios";
-import { BackendUrl } from "../../../../assets/constant";
+import JoditEditor from "jodit-react";
 import { toast } from "sonner";
-import { useLocation } from "react-router-dom";
 
-const AddBlog = ({ setblogs, setisAddBlog, placeholder }) => {
+const AddNews = ({ placeholder, setisAddNews, setallNews }) => {
   const editor = useRef(null);
   const [title, settitle] = useState("");
-  const [slug, setslug] = useState("");
   const [subDescription, setsubDescription] = useState("");
   const [description, setdescription] = useState("");
   const [image, setimage] = useState(null);
-  
 
   const config = useMemo(
     () => ({
@@ -41,10 +38,6 @@ const AddBlog = ({ setblogs, setisAddBlog, placeholder }) => {
       toast.error("Title is required");
       return false;
     }
-    if (!slug) {
-      toast.error("Slug is Required");
-      return false;
-    }
     if (!subDescription) {
       toast.error("SubDescription is Required");
       return false;
@@ -60,21 +53,20 @@ const AddBlog = ({ setblogs, setisAddBlog, placeholder }) => {
     return true;
   };
 
-  const handleAddBlog = async () => {
+  const handleAddNews = async () => {
     try {
       const formData = new FormData();
       formData.append("title", title);
-      formData.append("slug", slug);
       formData.append("subDescription", subDescription);
       formData.append("description", description);
-      formData.append("blog-image", image);
-      const res = await axios.post(`${BackendUrl}/admin/add-blog`, formData, {
+      formData.append("news-image", image);
+      const res = await axios.post(`${BackendUrl}/admin/add-news`, formData, {
         withCredentials: true,
       });
       if (res.status == 200) {
-        toast.success("Blog Added Successfully");
-        setblogs((prev) => [...prev, res.data.blog]);
-        setisAddBlog(false);
+        toast.success("News Added Successfully");
+        setallNews((prev) => [...prev, res.data.news]);
+        setisAddNews(false);
       }
     } catch (error) {
       toast.error(error.response.data);
@@ -93,7 +85,7 @@ const AddBlog = ({ setblogs, setisAddBlog, placeholder }) => {
         className={`w-full bg-gradient-to-br  shadow-2xl rounded-2xl p-8  space-y-6`}
       >
         <p className="text-3xl font-semibold text-center text-indigo-400">
-          Add New Blog
+          Add New News
         </p>
 
         {/* Title */}
@@ -106,25 +98,9 @@ const AddBlog = ({ setblogs, setisAddBlog, placeholder }) => {
             name="title"
             onChange={(e) => {
               settitle(e.target.value);
-              setslug(e.target.value.split(" ").join("-"));
             }}
             type="text"
             placeholder="Enter blog title"
-            className="w-full border border-gray-600 bg-gray-800 rounded-lg p-3 text-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder-gray-500"
-          />
-        </div>
-
-        {/* Slug */}
-        <div className="space-y-2">
-          <label className="block text-sm font-medium text-gray-300">
-            Slug
-          </label>
-          <input
-            type="text"
-            name="slug"
-            onChange={(e) => setslug(e.target.value.split(" ").join("-"))}
-            value={slug}
-            placeholder="Enter slug (e.g., my-first-blog)"
             className="w-full border border-gray-600 bg-gray-800 rounded-lg p-3 text-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder-gray-500"
           />
         </div>
@@ -171,7 +147,7 @@ const AddBlog = ({ setblogs, setisAddBlog, placeholder }) => {
           <input
             onChange={(e) => setimage(e.target.files[0])}
             type="file"
-            name="image"
+            name="news-image"
             accept=".png,.jpg,.jpeg,.svg,.webp"
             className="w-full border cursor-pointer border-gray-600 bg-gray-800 rounded-lg p-2 text-gray-100 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-indigo-600 file:text-white hover:file:bg-indigo-700 transition-all duration-300"
           />
@@ -182,7 +158,7 @@ const AddBlog = ({ setblogs, setisAddBlog, placeholder }) => {
           <button
             onClick={() => {
               if (valiDateBlogForm()) {
-                handleAddBlog();
+                handleAddNews();
               }
             }}
             type="button"
@@ -196,4 +172,4 @@ const AddBlog = ({ setblogs, setisAddBlog, placeholder }) => {
   );
 };
 
-export default AddBlog;
+export default AddNews;

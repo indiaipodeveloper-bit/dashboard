@@ -195,7 +195,7 @@ const Analytics = () => {
           <CardItem
             icon={Users}
             title="Admins"
-            value={`${admins} Except You`}
+            value={`${admins}`}
             change={
               allAdmins.filter(
                 (e) =>

@@ -86,16 +86,20 @@ transition-all duration-500 ease-out p-5"
                     <p className="text-sm font-medium text-white/70 break-all">
                       {member.email}
                     </p>
+                    {user.email == member.email && (
+                      <p className="font-bold text-white mt-2.5">(You)</p>
+                    )}
                   </div>
 
                   {/* Buttons Section */}
-                  {user.adminRole === "SuperAdmin" && (
-                    <div className="mt-3 w-full flex gap-3">
-                      <EditAdmin member={member} setadmins={setadmins} />
+                  {user._id !== member._id &&
+                    user.adminRole === "SuperAdmin" && (
+                      <div className="mt-3 w-full flex gap-3">
+                        <EditAdmin member={member} setadmins={setadmins} />
 
-                      <DeleteAdmin member={member} setadmins={setadmins} />
-                    </div>
-                  )}
+                        <DeleteAdmin member={member} setadmins={setadmins} />
+                      </div>
+                    )}
                 </div>
               ))}
             </div>

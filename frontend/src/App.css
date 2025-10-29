@@ -9,3 +9,8 @@
 * {
     font-family: "Roboto Mono", monospace;
 }
+
+
+.hide-scroll::-webkit-scrollbar {
+  display: none;
+}

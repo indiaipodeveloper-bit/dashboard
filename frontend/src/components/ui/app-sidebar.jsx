@@ -95,16 +95,25 @@ export function AppSidebar({ trigerRef }) {
           </button>
         </Link>
 
-        <Link to={"/news"}>
+        {/* <Link to={"/news"}>
           <button className="w-full flex cursor-pointer items-center justify-between px-3 py-2 text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800 rounded-md transition-colors group">
             <div className="flex items-center gap-3">
               <FaRegNewspaper className="text-lg" />
               <span>News</span>
             </div>
           </button>
+        </Link> */}
+
+        <Link to={"/ipo-eligibility"}>
+          <button className="w-full flex cursor-pointer items-center justify-between px-3 py-2 text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800 rounded-md transition-colors group">
+            <div className="flex items-center gap-3">
+              <FaRegNewspaper className="text-lg" />
+              <span>IPO Eligibility</span>
+            </div>
+          </button>
         </Link>
 
-        <DropdownMenu className=" outline-none border-none hover:bg-slate-800">
+        {/* <DropdownMenu className=" outline-none border-none hover:bg-slate-800">
           <DropdownMenuTrigger
             className="outline-none border-none hover:bg-slate-800 text-slate-300 hover:text-white"
             asChild
@@ -122,7 +131,7 @@ export function AppSidebar({ trigerRef }) {
               <Link to={"/financial-details"}>Financial Details</Link>
             </DropdownMenuItem>
           </DropdownMenuContent>
-        </DropdownMenu>
+        </DropdownMenu> */}
       </SidebarContent>
       <SidebarFooter />
     </Sidebar>

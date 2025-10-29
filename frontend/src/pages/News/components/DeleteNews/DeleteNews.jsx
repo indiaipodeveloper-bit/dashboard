@@ -1,4 +1,5 @@
 import React from "react";
+import axios from "axios";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -9,23 +10,21 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "../../../../../components/ui/alert-dialog";
-import { Button } from "../../../../../components/ui/button";
-import { FaTrash } from "react-icons/fa";
-import axios from "axios";
-import { BackendUrl } from "../../../../../assets/constant";
+} from "../../../../components/ui/alert-dialog";
+import { Button } from "../../../../components/ui/button";
+import { BackendUrl } from "../../../../assets/constant";
 import { MdDelete } from "react-icons/md";
 import { toast } from "sonner";
 
-const Deleteblog = ({ setblogs,blog }) => {
-  const handleDeleteBlog = async () => {
+const DeleteNews = ({ setnews,news }) => {
+  const handleDeleteNews = async () => {
     try {
-      const res = await axios.post(`${BackendUrl}/admin/delete-blog`, blog, {
+      const res = await axios.post(`${BackendUrl}/admin/delete-news`, news, {
         withCredentials: true,
       });
       if (res.status == 200) {
-        setblogs((prev)=> prev.filter((e)=> e._id !== blog._id))
-        toast.success(res.data);
+        setnews((prev) => prev.filter((e) => e._id !== res.data.news._id));
+        toast.success(res.data.msg);
       }
     } catch (error) {
       toast.error(error.response.data);
@@ -45,7 +44,7 @@ const Deleteblog = ({ setblogs,blog }) => {
             Are you absolutely sure?
           </AlertDialogTitle>
           <AlertDialogDescription className="text-gray-300">
-            This action cannot be undone. This will permanently delete Blog and
+            This action cannot be undone. This will permanently delete news and
             remove your data from our servers.
           </AlertDialogDescription>
         </AlertDialogHeader>
@@ -54,7 +53,7 @@ const Deleteblog = ({ setblogs,blog }) => {
             Cancel
           </AlertDialogCancel>
           <AlertDialogAction
-            onClick={() => handleDeleteBlog(blog)}
+            onClick={() => handleDeleteNews(news)}
             className="cursor-pointer hover:bg-red-500"
           >
             Delete
@@ -65,4 +64,4 @@ const Deleteblog = ({ setblogs,blog }) => {
   );
 };
 
-export default Deleteblog;
+export default DeleteNews;

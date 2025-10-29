@@ -1,10 +1,17 @@
 import { Blog } from "../models/BlogModel.js";
-import fs, { renameSync,unlinkSync,existsSync } from "fs";
+import fs, { renameSync, unlinkSync, existsSync } from "fs";
 
 // Add new blog
 export async function AddBlog(req, res) {
   try {
     const { title, slug, subDescription, description } = req.body;
+    if (!title || !slug || !subDescription || !description) {
+      return res.status(400).send("All The Details Are Required");
+    }
+    const existingBlog = await Blog.findOne({ slug });
+    if (existingBlog) {
+      return res.status(400).send("Slug is Already Taken");
+    }
     if (!req.file) {
       return res.status(400).send("Blog Image is Required");
     }
@@ -37,8 +44,24 @@ export async function getAllBlogs(req, res) {
 
 export async function EditBlog(req, res) {
   try {
-    const allBlogs = await Blog.find({});
-    return res.status(200).json({ allBlogs });
+    const { title, slug, description, subDescription, _id } = req.body;
+    const blog = await Blog.findOne({ _id });
+
+    blog.title = title
+    blog.slug = slug
+    blog.description = description
+    blog.subDescription = subDescription
+
+    if (req.file) {
+      const fileName = "uploads/blogs/" + Date.now() + req.file.originalname;
+      if (existsSync(blog.image)) {
+        unlinkSync(blog.image);
+      }
+      renameSync(req.file.path, fileName);
+      blog.image = fileName;
+    }
+    await blog.save();
+    return res.status(200).json({ blog });
   } catch (error) {
     return res.status(500).send("Sorry Internal Server Error !");
   }
@@ -51,8 +74,8 @@ export async function DeleteBlog(req, res) {
     if (!blog) {
       return res.status(400).send("Blog Doesn't Exist");
     }
-    if(existsSync(blog.image)){
-      unlinkSync(blog.image)
+    if (existsSync(blog.image)) {
+      unlinkSync(blog.image);
     }
     return res.status(200).send("Blog Deleted Successfully");
   } catch (error) {
