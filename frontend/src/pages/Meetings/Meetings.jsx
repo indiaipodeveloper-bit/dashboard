@@ -88,11 +88,11 @@ const Meetings = () => {
                   {/* LEFT - Date */}
                   <div className="flex flex-col items-center max-w-[70px]">
                     <p className="text-lg font-bold text-green-400">
-                      {meeting.dateLabel.split("-")[2]}
+                      {meeting.date.split("-")[2]}
                     </p>
                     <p className="text-sm font-semibold">
-                      {NoToMonths[meeting.dateLabel.split("-")[1]]}{" "}
-                      {meeting.dateLabel.split("-")[0]}
+                      {NoToMonths[meeting.date.split("-")[1]]}{" "}
+                      {meeting.date.split("-")[0]}
                     </p>
                   </div>
 
