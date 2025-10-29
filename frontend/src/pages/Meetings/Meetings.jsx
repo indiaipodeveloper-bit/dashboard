@@ -9,8 +9,20 @@ import { RiMoneyRupeeCircleLine } from "react-icons/ri";
 const Meetings = () => {
   const meetings = useSelector((state) => state.meetings.allMeetings);
   const [allMeetings, setallMeetings] = useState(meetings);
-  console.log(meetings);
-
+  const NoToMonths = {
+    1: "January",
+    2: "February",
+    3: "March",
+    4: "April",
+    5: "May",
+    6: "June",
+    7: "July",
+    8: "August",
+    9: "September",
+    10: "October",
+    11: "November",
+    12: "December",
+  };
   return (
     <div>
       <div className="bg-[#222529] shadow-sm px-6 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
@@ -70,17 +82,17 @@ const Meetings = () => {
                     )}
                   </Avatar>
                 </div>
-                ``
+
                 {/* Info Section */}
                 <div className="flex justify-between  w-full px-3 py-3 text-white">
                   {/* LEFT - Date */}
                   <div className="flex flex-col items-center max-w-[70px]">
                     <p className="text-lg font-bold text-green-400">
-                      {meeting.dateLabel.split(" ")[1]}
+                      {meeting.dateLabel.split("-")[2]}
                     </p>
                     <p className="text-sm font-semibold">
-                      {meeting.dateLabel.split(" ")[2]}{" "}
-                      {meeting.dateLabel.split(" ")[3]}
+                      {NoToMonths[meeting.dateLabel.split("-")[1]]}{" "}
+                      {meeting.dateLabel.split("-")[0]}
                     </p>
                   </div>
 
@@ -88,8 +100,7 @@ const Meetings = () => {
                   <div className="flex flex-col text-start items-end flex-1 ml-3 max-w-[300px] text-xs md:text-sm">
                     <div className="">
                       <p className="text-gray-300 text-xs">
-                        Time {meeting.timeLabel} {" "}
-                        {meeting.timezone}
+                        Time {meeting.timeLabel} {meeting.timezone}
                       </p>
                       <p className="text-gray-300">
                         Duration: {meeting.durationMin} mins
